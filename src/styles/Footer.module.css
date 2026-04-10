@@ -1,0 +1,58 @@
+.footer {
+  background: var(--brown);
+  padding: 60px 48px 32px;
+  color: rgba(245, 240, 232, .4);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(245, 240, 232, .08);
+  margin-bottom: 32px;
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--cream);
+}
+
+.logo span {
+  color: var(--terra-lt);
+  font-style: italic;
+}
+
+.tagline {
+  font-size: .82rem;
+  margin-top: 8px;
+}
+
+.socials { display: flex; gap: 16px; }
+
+.socialBtn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 240, 232, .15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(245, 240, 232, .5);
+  font-size: .9rem;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+.socialBtn:hover {
+  border-color: var(--terracota);
+  color: var(--terra-lt);
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .75rem;
+}
