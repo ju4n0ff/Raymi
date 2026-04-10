@@ -1,0 +1,104 @@
+/* ── Variables ──────────────────────────────── */
+:root {
+  --cream:    #f5f0e8;
+  --beige:    #e8dcc8;
+  --sand:     #d4c4a8;
+  --terracota:#b5714a;
+  --terra-dk: #8a4f2f;
+  --terra-lt: #d4956a;
+  --brown:    #3d2b1f;
+  --text:     #2c1f14;
+  --muted:    #8a7060;
+  --white:    #fdfaf5;
+  --nav-h:    80px;
+  --ease:     cubic-bezier(.25,.46,.45,.94);
+}
+
+/* ── Reset ──────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul { list-style: none; }
+
+button { font-family: 'Jost', sans-serif; }
+
+/* ── Shared section header ──────────────────── */
+.section-tag {
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--terracota);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  font-weight: 300;
+  color: var(--brown);
+  line-height: 1.15;
+}
+
+.section-title em { font-style: italic; }
+
+.section-desc {
+  margin-top: 16px;
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+/* ── Scroll reveal ──────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+
+.reveal.from-left  { transform: translateX(-40px); }
+.reveal.from-right { transform: translateX(40px); }
+.reveal.visible    { opacity: 1; transform: none; }
+
+/* ── Keyframes ──────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes zoomIn {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+@keyframes scrollLine {
+  0%, 100% { transform: scaleY(1);  opacity: 1; }
+  50%       { transform: scaleY(.4); opacity: .4; }
+}
