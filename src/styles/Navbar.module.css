@@ -1,0 +1,93 @@
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  z-index: 100;
+  transition: background .4s var(--ease), box-shadow .4s;
+}
+
+.nav.scrolled {
+  background: rgba(245, 240, 232, .96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--sand);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--brown);
+}
+
+.logoMark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--terracota);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--terracota);
+  font-size: 1.1rem;
+  /* Replace contents with <img src="/logo.svg" alt="Logo" /> */
+}
+
+.links {
+  display: flex;
+  gap: 36px;
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.links a {
+  position: relative;
+  padding-bottom: 4px;
+  transition: color .3s;
+}
+
+.links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--terracota);
+  transition: width .35s var(--ease);
+}
+
+.links a:hover           { color: var(--terracota); }
+.links a:hover::after    { width: 100%; }
+
+.cta {
+  font-size: .78rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--white);
+  background: var(--terracota);
+  padding: 10px 24px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: background .3s, transform .2s;
+}
+
+.cta:hover {
+  background: var(--terra-dk);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .nav    { padding: 0 24px; }
+  .links  { display: none; }
+}
