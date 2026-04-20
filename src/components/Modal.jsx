@@ -14,8 +14,7 @@ export default function Modal({ isOpen, onClose, preselect }) {
   const [form, setForm] = useState(INITIAL_FORM)
   const [sent, setSent] = useState(false)
 
-  // pre-fill pack when opened from a pack card
-  useEffect(() => {
+   useEffect(() => {
     if (preselect) {
       setForm((prev) => ({ ...prev, pack: `Pack ${preselect}` }))
     }
