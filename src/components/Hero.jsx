@@ -19,8 +19,8 @@ export default function Hero({ onGallery, onPacks }) {
 
   return (
     <section className={styles.hero} id="hero">
-      {/* Left column */}
-      <div className={styles.left}>
+      
+       <div className={styles.left}>
         <p className={styles.tag}>Fotografía profesional · Lima, Perú</p>
 
         <h1 className={styles.title}>
@@ -48,20 +48,15 @@ export default function Hero({ onGallery, onPacks }) {
         </div>
       </div>
 
-      {/* Right column — hero image */}
-      <div className={styles.right}>
-        {/*
-          Reemplaza el src con tu foto principal:
-          src="/fotos/hero.jpg"
-        */}
+       <div className={styles.right}>
+ 
         <img
           src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&q=80"
           alt="Fotografía de retrato"
         />
       </div>
 
-      {/* Scroll indicator */}
-      <div className={styles.scrollInd}>
+       <div className={styles.scrollInd}>
         <div className={styles.scrollLine} />
         <span>Scroll</span>
       </div>
