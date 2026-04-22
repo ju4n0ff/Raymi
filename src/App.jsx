@@ -1,52 +1,27 @@
-import { useCallback } from 'react'
-import { useScrollReveal } from './hooks/useScrollReveal'
-import { useModal }        from './hooks/useModal'
 
-import Cursor  from './components/Cursor'
-import Navbar  from './components/Navbar'
-import Hero    from './components/Hero'
-import Gallery from './components/Gallery'
-import About   from './components/About'
-import Services from './components/Services'
-import Packs   from './components/Packs'
-import Contact from './components/Contact'
-import Modal   from './components/Modal'
-import Footer  from './components/Footer'
+  import Home from './pages/Home'
+  import Packs from './components/Packs'
+  import Error from './pages/Error'
+  import Cursor from './components/Cursor'
+  import { Routes, Route, BrowserRouter } from 'react-router-dom'
+  import MainLayout from './components/MainLayout'
+ 
+  export default function App() {
+ 
+    return (
+      <>
+        <BrowserRouter>
+          <Cursor />
 
-export default function App() {
-  const { isOpen, preselect, open, close } = useModal()
+          <Routes>
+            <Route path='/' element={<MainLayout />}>
+              <Route index element={<Home />} />
+             </Route>
+            <Route path='*' element={<Error />} />
+          </Routes>
 
-  // Re-observe newly rendered elements after every render
-  useScrollReveal()
 
-  const scrollTo = useCallback((id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  }, [])
-
-  return (
-    <>
-      <Cursor />
-
-      <Navbar onContact={() => open()} />
-
-      <Hero
-        onGallery={() => scrollTo('galeria')}
-        onPacks={() => scrollTo('packs')}
-      />
-
-      <Gallery />
-
-      <About />
-
-      <Services />
-
-      <Packs onReserve={open} />
-
-      <Contact onOpen={() => open()} />
-
-      <Footer />
-
-      <Modal isOpen={isOpen} onClose={close} preselect={preselect} />
-    </>
-  )
-}
+        </BrowserRouter>
+      </>
+    )
+  }
