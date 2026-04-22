@@ -62,46 +62,4 @@ npm run build
 npm run preview
 ```
 
-## Personalización
 
-### 🖼 Tus fotos
-Coloca tus imágenes en `public/fotos/` y edita `src/data/index.js`:
-
-```js
-// Cambia cada objeto en SLIDES:
-{
-  id: 1,
-  cat: 'retratos',
-  src: '/fotos/retrato-1.jpg',   // ← tu ruta local
-  label: 'Mi sesión de retrato',
-  caption: 'Retrato · Luz natural',
-}
-```
-
-### 🏷 Logo
-En `src/components/Navbar.jsx`, reemplaza el contenido de `.logoMark`:
-```jsx
-<div className={styles.logoMark}>
-  <img src="/logo.svg" alt="Logo" />
-</div>
-```
-
-### 💰 Packs y precios
-Edita el array `PACKS` en `src/data/index.js`.
-
-### 📞 Datos de contacto
-Edita `CONTACT_INFO` en `src/data/index.js`.
-
-### 📊 Stats (Sobre mí)
-Edita `STATS` directamente en `src/components/About.jsx`.
-
-### 🎨 Colores
-Todos los colores están en `src/styles/global.css` como variables CSS:
-```css
-:root {
-  --terracota: #b5714a;
-  --brown:     #3d2b1f;
-  --cream:     #f5f0e8;
-  /* ... */
-}
-```
