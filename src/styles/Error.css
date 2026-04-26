@@ -1,0 +1,123 @@
+
+.error-body {
+    background-color: #fdfae7; /* Fondo crema de la imagen */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-container {
+    text-align: center;
+    position: relative;
+    max-width: 500px;
+    width: 90%;
+}
+
+/* Triángulo de advertencia superior */
+.warning-icon {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 45px solid #f1c40f;
+    margin: 0 auto -10px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    color: #333;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.warning-icon::after {
+    content: "!";
+    position: absolute;
+    top: 15px;
+}
+
+/* Tarjeta principal */
+.error-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.error-header {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.circle-x {
+    background: white;
+    color: #ff4d4d;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 30px;
+    line-height: 35px;
+    font-weight: bold;
+}
+
+.error-header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+/* Contenido de la tarjeta */
+.error-content {
+    padding: 40px 20px;
+}
+
+.error-content h2 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.badge {
+    background-color: #e91e63;
+    color: white;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.error-content p {
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Botón */
+.btn-back {
+    display: inline-block;
+    background-color: #d32f2f;
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #b71c1c;
+}
+
+/* Footer imitando la marca de agua */
+.footer-link {
+    margin-top: 20px;
+    color: #ff4d4d;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-align: right;
+}
