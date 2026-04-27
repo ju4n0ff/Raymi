@@ -12,7 +12,7 @@ export default function Footer() {
       <div className={styles.top}> 
         <div className={styles.column}>
           <div className={styles.logo}>
-            Nombre<span>Estudio</span>
+            Raymi<span>Estudio</span>
           </div>
           <p className={styles.description}>
             Estudio boutique de fotografía profesional dedicado a capturar la esencia de tus momentos más especiales.
@@ -36,7 +36,7 @@ export default function Footer() {
 
         <div className={styles.column}>
           <h4>Contacto</h4>
-          <a href="mailto:hola@estudio.com">hola@estudio.com</a>
+          <a href="mailto:hola@estudio.com">hola@Raymiestudio.com</a>
           <span>+51 999 888 777</span>
           <span>Av. Las Artes 123, Lima</span>
         </div>
@@ -50,7 +50,7 @@ export default function Footer() {
         </div>
         
         <div className={styles.legal}>
-          <span>© {new Date().getFullYear()} NombreEstudio · Todos los derechos reservados</span>
+          <span>© {new Date().getFullYear()} RaymiEstudio · Todos los derechos reservados</span>
           <span>Hecho en Lima - Perú</span>
         </div>
       </div>

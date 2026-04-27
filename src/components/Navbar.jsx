@@ -18,7 +18,7 @@ export default function Navbar({ onContact }) {
           {/* Reemplaza el contenido con: <img src="/logo.svg" alt="Logo" /> */}
           ✦
         </div>
-        NombreEstudio
+        RaymiEstudio
       </a>
 
       <ul className={styles.links}>
