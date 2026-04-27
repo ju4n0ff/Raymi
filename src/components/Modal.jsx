@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { CONTACT_INFO, PACKS } from '../data'
 import styles from '../styles/Modal.module.css'
+import { enviarMensaje } from '../services/contactService'
 
 const INITIAL_FORM = {
   nombre:   '',
@@ -23,14 +24,21 @@ export default function Modal({ isOpen, onClose, preselect }) {
   const set = (key) => (e) =>
     setForm((prev) => ({ ...prev, [key]: e.target.value }))
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => {
-      setSent(false)
-      setForm(INITIAL_FORM)
-      onClose()
+
+    try{
+      await enviarMensaje(form)
+    
+      setSent(true)
+      setTimeout(() => {
+        setSent(false)
+        setForm(INITIAL_FORM)
+        onClose()
     }, 2800)
+    } catch(error){
+      alert('Error al enviar mensaje: '+error.message)
+    }
   }
 
   const handleOverlayClick = (e) => {

@@ -151,8 +151,8 @@ export const PACKS = [
 ]
 
 export const CONTACT_INFO = [
-  { icon: '📍', label: 'Ubicación',  value: 'Lima, Perú · Viajes disponibles' },
-  { icon: '📸', label: 'Instagram',  value: '@tunombre_foto' },
-  { icon: '✉️',  label: 'Email',     value: 'hola@tuestudio.pe' },
-  { icon: '📱', label: 'WhatsApp',   value: '+51 9XX XXX XXX' },
+  { icon: '📍', label: 'Ubicación',  value: 'Lima, Perú' },
+  { icon: '📸', label: 'Instagram',  value: '@RaymiEstudio_foto' },
+  { icon: '✉️',  label: 'Email',     value: 'hola@RaymiEstudio.pe' },
+  { icon: '📱', label: 'WhatsApp',   value: '+51 999 888 777' },
 ]
