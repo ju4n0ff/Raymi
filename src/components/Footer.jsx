@@ -12,7 +12,7 @@ export default function Footer() {
       <div className={styles.top}> 
         <div className={styles.column}>
           <div className={styles.logo}>
-            Raymi<span>Estudio</span>
+            Nombre<span>Estudio</span>
           </div>
           <p className={styles.description}>
             Estudio boutique de fotografía profesional dedicado a capturar la esencia de tus momentos más especiales.

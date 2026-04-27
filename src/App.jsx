@@ -20,7 +20,6 @@
             <Route path='*' element={<Error />} />
           </Routes>
 
-
         </BrowserRouter>
       </>
     )
