@@ -60,6 +60,8 @@ npm run build
 
 # 4. Preview del build
 npm run preview
-```
+```z
 
+# He Realizado cambios en este README para mostrar al docente sobre el flujo de trabajo en git desde visual. 
 
+# He vuelto a realizar cambios en la rama para poder ver que esta es una rama nueva. 
