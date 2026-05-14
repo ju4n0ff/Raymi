@@ -5,11 +5,11 @@ import styles from '../styles/Gallery.module.css'
 export default function Gallery() {
   const [activeCat, setActiveCat] = useState('all')
   const [currentIdx, setCurrentIdx] = useState(0)
-  const trackRef    = useRef(null)
-  const isDragging  = useRef(false)
-  const startX      = useRef(0)
-  const scrollLeft  = useRef(0)
-  const touchStart  = useRef(0)
+  const trackRef = useRef(null)
+  const isDragging = useRef(false)
+  const startX = useRef(0)
+  const scrollLeft = useRef(0)
+  const touchStart = useRef(0)
 
   const visible = SLIDES.filter(
     (s) => activeCat === 'all' || s.cat === activeCat
@@ -38,9 +38,9 @@ export default function Gallery() {
 
   /* ── drag to scroll ── */
   const onMouseDown = (e) => {
-    isDragging.current  = true
-    startX.current      = e.pageX - trackRef.current.offsetLeft
-    scrollLeft.current  = trackRef.current.scrollLeft
+    isDragging.current = true
+    startX.current = e.pageX - trackRef.current.offsetLeft
+    scrollLeft.current = trackRef.current.scrollLeft
     trackRef.current.classList.add(styles.grabbing)
   }
   const onMouseLeave = () => {
@@ -60,7 +60,7 @@ export default function Gallery() {
 
   /* ── touch ── */
   const onTouchStart = (e) => { touchStart.current = e.touches[0].clientX }
-  const onTouchEnd   = (e) => {
+  const onTouchEnd = (e) => {
     const diff = touchStart.current - e.changedTouches[0].clientX
     if (Math.abs(diff) > 40) slideBy(diff > 0 ? 1 : -1)
   }
@@ -81,6 +81,7 @@ export default function Gallery() {
   }
 
   return (
+
     <section className={styles.gallery} id="galeria">
       {/* Header */}
       <div className={`${styles.header} reveal`}>
@@ -146,6 +147,9 @@ export default function Gallery() {
         </button>
       </div>
 
+
+
+
       {/* Dots */}
       <div className={styles.dots}>
         {visible.map((_, i) => (
@@ -157,6 +161,123 @@ export default function Gallery() {
           />
         ))}
       </div>
+
+      <br />
+
+      <h3 className={styles.sub_titulos} >Bodas</h3>
+      <div className={styles.carouselWrap}>
+        <button className={`${styles.btn} ${styles.prev}`} onClick={() => slideBy(-1)}>
+          ←
+        </button>
+
+        <div
+          className={styles.track}
+          ref={trackRef}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onScroll={onScroll}
+        >
+          {/* Filtramos el arreglo 'visible' antes de hacer el map */}
+          {visible
+            .filter((s) => s.cat === "bodas")
+            .map((s) => (
+              <div className={styles.slide} key={s.id} data-cat={s.cat}>
+                <div className={styles.slideImg}>
+                  <img src={s.src} alt={s.label} draggable={false} />
+                  <div className={styles.overlay}>
+                    <span className={styles.slideLabel}>{s.label}</span>
+                  </div>
+                </div>
+                <p className={styles.caption}>{s.caption}</p>
+              </div>
+            ))}
+        </div>
+
+        <button className={`${styles.btn} ${styles.next}`} onClick={() => slideBy(1)}>
+          →
+        </button>
+      </div>
+
+      <h3 className={styles.sub_titulos}>Naturaleza</h3>
+      <div className={styles.carouselWrap}>
+        <button className={`${styles.btn} ${styles.prev}`} onClick={() => slideBy(-1)}>
+          ←
+        </button>
+
+        <div
+          className={styles.track}
+          ref={trackRef}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onScroll={onScroll}
+        >
+          {/* Filtramos el arreglo 'visible' antes de hacer el map */}
+          {visible
+            .filter((s) => s.cat === "naturaleza")
+            .map((s) => (
+              <div className={styles.slide} key={s.id} data-cat={s.cat}>
+                <div className={styles.slideImg}>
+                  <img src={s.src} alt={s.label} draggable={false} />
+                  <div className={styles.overlay}>
+                    <span className={styles.slideLabel}>{s.label}</span>
+                  </div>
+                </div>
+                <p className={styles.caption}>{s.caption}</p>
+              </div>
+            ))}
+        </div>
+
+        <button className={`${styles.btn} ${styles.next}`} onClick={() => slideBy(1)}>
+          →
+        </button>
+      </div>
+
+      <h3 className={styles.sub_titulos} >Eventos</h3>
+      <div className={styles.carouselWrap}>
+        <button className={`${styles.btn} ${styles.prev}`} onClick={() => slideBy(-1)}>
+          ←
+        </button>
+
+        <div
+          className={styles.track}
+          ref={trackRef}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onScroll={onScroll}
+        >
+          {/* Filtramos el arreglo 'visible' antes de hacer el map */}
+          {visible
+            .filter((s) => s.cat === "eventos")
+            .map((s) => (
+              <div className={styles.slide} key={s.id} data-cat={s.cat}>
+                <div className={styles.slideImg}>
+                  <img src={s.src} alt={s.label} draggable={false} />
+                  <div className={styles.overlay}>
+                    <span className={styles.slideLabel}>{s.label}</span>
+                  </div>
+                </div>
+                <p className={styles.caption}>{s.caption}</p>
+              </div>
+            ))}
+        </div>
+
+        <button className={`${styles.btn} ${styles.next}`} onClick={() => slideBy(1)}>
+          →
+        </button>
+      </div>
+
     </section>
   )
 }
