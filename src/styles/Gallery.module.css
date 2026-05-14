@@ -42,6 +42,13 @@
 /* Carousel */
 .carouselWrap { position: relative; }
 
+.sub_titulos{
+  font-size:2rem;
+  font-family: 'Cormorant Garamond', serif;
+  color:var(--terracota);
+  margin: 15px 50px;
+}
+
 .track {
   display: flex;
   gap: 20px;
@@ -89,14 +96,11 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(61, 43, 31, .7) 0%, transparent 50%);
-  opacity: 0;
-  transition: opacity .4s;
   display: flex;
   align-items: flex-end;
   padding: 28px;
 }
 
-.slide:hover .overlay { opacity: 1; }
 
 .slideLabel {
   color: var(--white);

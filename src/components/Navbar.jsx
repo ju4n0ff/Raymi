@@ -1,11 +1,12 @@
 import { useNavScroll } from '../hooks/useNavScroll'
 import styles from '../styles/Navbar.module.css'
+import { Link } from 'react-router-dom'
 
 const NAV_LINKS = [
-  { href: '#galeria',  label: 'Galería' },
-  { href: '#about',    label: 'Nosotros' },
-  { href: '#packs',    label: 'Packs' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '/Gallery',  label: 'Galería' },
+  { href: '/#about',    label: 'Nosotros' },
+  { href: '/#packs',    label: 'Packs' },
+  { href: '/#contacto', label: 'Contacto' },
 ]
 
 export default function Navbar({ onContact }) {
@@ -13,18 +14,18 @@ export default function Navbar({ onContact }) {
 
   return (
     <nav className={`${styles.nav}${scrolled ? ` ${styles.scrolled}` : ''}`}>
-      <a href="#" className={styles.logo}>
+      <Link to="/" className={styles.logo}>
         <div className={styles.logoMark}>
           {/* Reemplaza el contenido con: <img src="/logo.svg" alt="Logo" /> */}
           ✦
         </div>
         RaymiEstudio
-      </a>
+      </Link>
 
       <ul className={styles.links}>
         {NAV_LINKS.map(({ href, label }) => (
           <li key={href}>
-            <a href={href}>{label}</a>
+            <Link to={href}>{label}</Link>
           </li>
         ))}
       </ul>
