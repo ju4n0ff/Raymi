@@ -120,59 +120,59 @@ export const SERVICES = [
 
 export const PACKS = [
   {
-    badge: '📸 Solo foto',
-    name: 'Urbano / Pre Boda',
-    price: 'S/ 100',
-    featured: false,
-    desc: 'Sesiones urbanas, retratos, parejas y contenido personal.',
-    items: [
-      'Básico: 1 hora · 15 fotos editadas · S/100',
-      'Estándar: 1.5–2 h · 25 fotos editadas · S/150',
-      'Pre Boda Básico: 1 h · 25 fotos · S/120',
-      'Pre Boda Estándar: 2 h · 40 fotos · S/180',
-      'Incluye edición profesional + dirección de poses',
-    ],
-  },
-  {
-    badge: '🎥 Foto + Video',
-    name: 'Cumpleaños / Eventos',
-    price: 'S/ 150',
-    featured: false,
-    desc: 'Infantiles, adultos y quinceañeros. Foto y video.',
-    items: [
-      'Básico: 1.5 h · 30 fotos · video corto · S/150',
-      'Estándar: 2 h · 50 fotos · video resumen · S/200',
-      'Premium: 3 h · 70 fotos · video completo · S/250',
-      'Quinceañero Básico: 2 h · 50 fotos · video · S/180',
-      'Quinceañero Premium: 3.5 h · 100 fotos · video · S/350',
-    ],
-  },
-  {
-    badge: '⭐ Más popular',
-    name: 'Boda',
-    price: 'S/ 250',
+    badge: '🔥 Mas popular',
+    name: 'Pack Urbano Pro',
+    price: 'S/ 290',
     featured: true,
-    desc: 'Cobertura completa de bodas civiles y religiosas.',
+    desc: 'Ideal para marca personal, parejas y contenido editorial en exteriores.',
     items: [
-      'Básico: 2 h · 50 fotos · video corto · S/250',
-      'Estándar: 3 h · 80 fotos · video 2–3 min · S/350',
-      'Premium: 4–5 h · 120 fotos · video completo · S/450',
-      'Edición profesional incluida en todos los planes',
-      'Entrega digital en alta calidad',
+      'Sesion de 2 horas en 1 o 2 locaciones urbanas',
+      '40 fotografias finales editadas en alta resolucion',
+      'Direccion de poses y asesoria de vestuario previa',
+      'Entrega en galeria privada online (5 dias habiles)',
+      'Opcion de reels behind the scenes (+S/ 80)',
     ],
   },
   {
-    badge: '💼 Comercial',
-    name: 'Negocios',
-    price: 'S/ 120',
+    badge: '🎉 Cobertura social',
+    name: 'Eventos y Celebraciones',
+    price: 'S/ 380',
     featured: false,
-    desc: 'Barberías, consultorios, emprendimientos y redes sociales.',
+    desc: 'Cobertura profesional para cumpleanos, bautizos y celebraciones privadas.',
     items: [
-      'Barbería Básico: 10 fotos + video · S/120',
-      'Barbería Estándar: 20 fotos + 2 reels · S/180',
-      'Consultorio Básico: fotos + video · S/150',
-      'Consultorio Estándar: fotos + videos + 1 reel · S/200',
-      'Incluye asesoría para poses',
+      'Cobertura fotografica de 3 horas continuas',
+      '80 fotografias editadas + seleccion de momentos clave',
+      'Entrega digital optimizada para redes y para impresion',
+      'Preview de 10 fotos en 24 horas',
+      'Hora extra: S/ 90',
+    ],
+  },
+  {
+    badge: '💍 Wedding Story',
+    name: 'Bodas Esencial',
+    price: 'S/ 890',
+    featured: false,
+    desc: 'Narrativa completa de boda civil o religiosa con enfoque documental.',
+    items: [
+      'Cobertura de 6 horas (preparativos, ceremonia y retratos)',
+      '250+ fotografias editadas en alta resolucion',
+      'Sesion de pareja post ceremonia (30 min)',
+      'Galeria privada para compartir con invitados',
+      'Entrega final en 10 a 15 dias habiles',
+    ],
+  },
+  {
+    badge: '🏢 Comercial',
+    name: 'Marca y Negocio',
+    price: 'S/ 450',
+    featured: false,
+    desc: 'Contenido fotografico para empresas, emprendedores y redes sociales.',
+    items: [
+      'Sesion de 3 horas en local u oficina',
+      '60 fotos editadas de ambiente, equipo y servicio',
+      'Enfoque en identidad visual y confianza de marca',
+      'Licencia de uso comercial para redes y web',
+      'Plan mensual disponible para contenido continuo',
     ],
   },
 ]
@@ -185,3 +185,159 @@ export const CONTACT_INFO = [
   { icon: '✉️',  label: 'Email',     value: 'raymifotografia24@gmail.com' },
   { icon: '📱', label: 'WhatsApp',   value: '952 365 703' },
 ]
+
+const photoWallModules = import.meta.glob('../../public/images/mosaico/*.{avif,webp,jpg,jpeg,png}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+})
+
+const WALL_TILTS = [-1.8, 1.6, -0.9, 1.1, -1.4, 1.7, -1.1, 1.3]
+
+const parsePhotoIndex = (name) => {
+  const match = name.match(/(\d+)/)
+  return match ? Number.parseInt(match[1], 10) : Number.POSITIVE_INFINITY
+}
+
+const getPhotoOrientation = (name) => {
+  if (/^v\d+/i.test(name)) {
+    return 'portrait'
+  }
+
+  if (/^h\d+/i.test(name)) {
+    return 'landscape'
+  }
+
+  if (/^s\d+/i.test(name)) {
+    return 'square'
+  }
+
+  return 'square'
+}
+
+const WALL_PATTERNS = [
+  ['portrait', 'landscape', 'portrait', 'landscape'],
+  ['landscape', 'landscape', 'portrait', 'landscape'],
+  ['portrait', 'portrait', 'landscape', 'portrait'],
+  ['landscape', 'portrait', 'landscape', 'portrait'],
+]
+
+const takeNext = (bucket) => bucket.shift() ?? null
+
+const repeatsTooMuch = (ordered, candidateOrientation) => {
+  if (ordered.length < 2) {
+    return false
+  }
+
+  const last = ordered[ordered.length - 1]?.orientation
+  const prev = ordered[ordered.length - 2]?.orientation
+
+  return last === candidateOrientation && prev === candidateOrientation
+}
+
+const pickByPreference = (buckets, preferred, ordered) => {
+  const fallbackOrder =
+    preferred === 'landscape'
+      ? ['landscape', 'portrait', 'square']
+      : ['portrait', 'square', 'landscape']
+
+  let delayedCandidate = null
+
+  for (const key of fallbackOrder) {
+    const photo = buckets[key][0] ?? null
+    if (!photo) {
+      continue
+    }
+
+    if (repeatsTooMuch(ordered, photo.orientation)) {
+      if (!delayedCandidate) {
+        delayedCandidate = { key, photo }
+      }
+      continue
+    }
+
+    takeNext(buckets[key])
+    return photo
+  }
+
+  if (delayedCandidate) {
+    takeNext(buckets[delayedCandidate.key])
+    return delayedCandidate.photo
+  }
+
+  for (const key of ['portrait', 'landscape', 'square']) {
+    const photo = takeNext(buckets[key])
+    if (photo) {
+      return photo
+    }
+  }
+
+  return null
+}
+
+const distributeWallPhotos = (photos) => {
+  const buckets = {
+    portrait: photos.filter((photo) => photo.orientation === 'portrait'),
+    landscape: photos.filter((photo) => photo.orientation === 'landscape'),
+    square: photos.filter((photo) => photo.orientation === 'square'),
+  }
+
+  const ordered = []
+  let patternIndex = 0
+
+  while (buckets.portrait.length || buckets.landscape.length || buckets.square.length) {
+    const pattern = WALL_PATTERNS[patternIndex % WALL_PATTERNS.length]
+
+    for (const orientation of pattern) {
+      const nextPhoto = pickByPreference(buckets, orientation, ordered)
+      if (nextPhoto) {
+        ordered.push(nextPhoto)
+      }
+    }
+
+    patternIndex += 1
+  }
+
+  return ordered
+}
+
+const wallPhotos = Object.entries(photoWallModules)
+  .map(([filePath, src]) => {
+    const fileName = filePath.split('/').pop()?.split('.')[0] ?? ''
+    return { filePath, src, fileName }
+  })
+  .sort((a, b) => {
+    const orientationOrder = { v: 0, h: 1, s: 2 }
+    const aPrefix = a.fileName.charAt(0).toLowerCase()
+    const bPrefix = b.fileName.charAt(0).toLowerCase()
+    const aRank = orientationOrder[aPrefix] ?? 3
+    const bRank = orientationOrder[bPrefix] ?? 3
+
+    if (aRank !== bRank) {
+      return aRank - bRank
+    }
+
+    const indexDiff = parsePhotoIndex(a.fileName) - parsePhotoIndex(b.fileName)
+    if (indexDiff !== 0) {
+      return indexDiff
+    }
+
+    return a.fileName.localeCompare(b.fileName)
+  })
+  .map(({ fileName, src }, index) => {
+    const safeName = fileName || `foto-${index + 1}`
+    const label = safeName.replace(/[-_]+/g, ' ')
+
+    return {
+      id: safeName,
+      src,
+      alt: `Mosaico ${label}`,
+      orientation: getPhotoOrientation(safeName),
+      tilt: WALL_TILTS[index % WALL_TILTS.length],
+    }
+  })
+
+export const PHOTO_WALL = distributeWallPhotos(wallPhotos).map((photo, index) => ({
+  ...photo,
+  tilt: WALL_TILTS[index % WALL_TILTS.length],
+}))

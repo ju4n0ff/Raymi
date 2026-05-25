@@ -100,7 +100,7 @@
 
 .slideLabel {
   color: var(--white);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: 1.3rem;
   font-weight: 400;
   font-style: italic;
@@ -269,7 +269,7 @@
 }
 
 .lbInfo span:first-child {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: 1.1rem;
   font-style: italic;
 }

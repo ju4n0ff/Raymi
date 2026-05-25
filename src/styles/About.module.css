@@ -36,7 +36,7 @@
 
 .bio {
   margin-top: 28px;
-  font-size: .92rem;
+  font-size: 1rem;
   line-height: 1.9;
   color: var(--muted);
 }
@@ -51,14 +51,14 @@
 }
 
 .statNum {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: 2.8rem;
   font-weight: 300;
   color: var(--terracota);
 }
 
 .statLabel {
-  font-size: .75rem;
+  font-size: .84rem;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -75,7 +75,7 @@
 @media (max-width: 600px) {
   .imgWrap { height: 260px; }
   .content { padding: 40px 20px; }
-  .bio { font-size: .85rem; margin-top: 20px; }
+  .bio { font-size: .95rem; margin-top: 20px; }
   .stats { grid-template-columns: 1fr; gap: 20px; text-align: center; }
   .statNum { font-size: 2rem; }
 }

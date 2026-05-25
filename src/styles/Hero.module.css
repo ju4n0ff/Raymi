@@ -11,13 +11,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 140px 64px 80px;
+  padding: 140px 64px 130px;
   position: relative;
   z-index: 2;
 }
 
 .tag {
-  font-size: .75rem;
+  font-size: .86rem;
   letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--terracota);
@@ -26,7 +26,7 @@
 }
 
 .title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: clamp(3rem, 5vw, 5.5rem);
   font-weight: 300;
   line-height: 1.08;
@@ -41,11 +41,11 @@
 }
 
 .desc {
-  font-size: .95rem;
+  font-size: 1.05rem;
   line-height: 1.8;
   color: var(--muted);
   max-width: 380px;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
    animation: fadeUp .9s var(--ease) .7s forwards;
 }
 
@@ -63,7 +63,7 @@
   border-radius: 2px;
   border: none;
   cursor: pointer;
-  font-size: .82rem;
+  font-size: .92rem;
   letter-spacing: .1em;
   text-transform: uppercase;
   font-weight: 500;
@@ -78,7 +78,7 @@
 }
 
 .btnGhost {
-  font-size: .82rem;
+  font-size: .92rem;
   letter-spacing: .1em;
   text-transform: uppercase;
   font-weight: 500;
@@ -103,12 +103,12 @@
 
 .tagline {
   position: absolute;
-  bottom: 60px;
+  bottom: 36px;
   left: 64px;
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: .72rem;
+  font-size: .82rem;
   letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--sand);
@@ -150,7 +150,7 @@
   align-items: center;
   gap: 8px;
   color: var(--muted);
-  font-size: .7rem;
+  font-size: .8rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   z-index: 3;
@@ -166,7 +166,7 @@
 }
 
 @media (max-width: 1024px) {
-  .left  { padding: 120px 40px 80px; }
+  .left  { padding: 120px 40px 120px; }
 }
 
 @media (max-width: 900px) {
@@ -180,7 +180,7 @@
 @media (max-width: 600px) {
   .left  { padding: 40px 20px 48px; }
   .title { font-size: clamp(2rem, 10vw, 3rem); }
-  .desc  { font-size: .85rem; max-width: 100%; margin-bottom: 32px; }
+  .desc  { font-size: .95rem; max-width: 100%; margin-bottom: 32px; }
   .actions { flex-direction: column; align-items: stretch; }
   .btnPrimary { text-align: center; }
   .btnGhost { justify-content: center; padding: 14px 36px; }

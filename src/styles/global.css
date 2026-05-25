@@ -12,6 +12,9 @@
   --white:    #fdfaf5;
   --nav-h:    80px;
   --ease:     cubic-bezier(.25,.46,.45,.94);
+  --font-body: 'Rajdhani', sans-serif;
+  --font-display: 'Rajdhani', sans-serif;
+  --font-rect: 'Rajdhani', sans-serif;
 }
 
 /* ── Reset ──────────────────────────────────── */
@@ -21,13 +24,17 @@
   padding: 0;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  font-size: 18px;
+}
 
 body {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-body);
   background: var(--cream);
   color: var(--text);
   overflow-x: hidden;
+  line-height: 1.55;
 }
 
 img {
@@ -43,11 +50,11 @@ a {
 
 ul { list-style: none; }
 
-button { font-family: 'Jost', sans-serif; }
+button { font-family: var(--font-body); }
 
 /* ── Shared section header ──────────────────── */
 .section-tag {
-  font-size: .72rem;
+  font-size: .82rem;
   letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--terracota);
@@ -56,9 +63,10 @@ button { font-family: 'Jost', sans-serif; }
 }
 
 .section-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: clamp(2.2rem, 4vw, 3.8rem);
-  font-weight: 300;
+  font-weight: 500;
+  letter-spacing: .03em;
   color: var(--brown);
   line-height: 1.15;
 }
@@ -67,7 +75,7 @@ button { font-family: 'Jost', sans-serif; }
 
 .section-desc {
   margin-top: 16px;
-  font-size: .9rem;
+  font-size: 1rem;
   color: var(--muted);
   line-height: 1.8;
   max-width: 520px;

@@ -5,7 +5,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import Hero from '../components/Hero'
 import Gallery from '../components/Gallery'
 import About from '../components/About'
-import Services from '../components/Services'
+import PhotoWall from '../components/PhotoWall'
 import Packs from '../components/Packs'
 import Contact from '../components/Contact'
 
@@ -28,7 +28,7 @@ export default function Home() {
 
         <About />
 
-        <Services />
+        <PhotoWall />
         
         <Packs onReserve={open}/>
         <Contact onOpen={() => open()} />

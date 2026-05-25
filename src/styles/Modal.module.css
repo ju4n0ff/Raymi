@@ -47,7 +47,7 @@
 }
 
 .title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: 2.2rem;
   font-weight: 300;
   color: var(--brown);
@@ -171,7 +171,7 @@
 }
 
 .successMessage h3 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: 1.6rem;
   font-weight: 400;
   color: var(--brown);
@@ -199,7 +199,7 @@
   border: 1px solid var(--sand);
   border-radius: 2px;
   color: var(--text);
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-body);
   font-size: .88rem;
   transition: border-color .3s, box-shadow .3s;
   outline: none;

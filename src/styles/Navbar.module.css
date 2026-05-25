@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-rect);
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: .02em;
@@ -36,7 +36,7 @@
 .links {
   display: flex;
   gap: 36px;
-  font-size: .82rem;
+  font-size: .9rem;
   letter-spacing: .12em;
   text-transform: uppercase;
   font-weight: 500;
@@ -62,7 +62,7 @@
 .links a:hover::after    { width: 100%; }
 
 .cta {
-  font-size: .78rem;
+  font-size: .86rem;
   letter-spacing: .12em;
   text-transform: uppercase;
   font-weight: 500;
@@ -83,7 +83,7 @@
 @media (max-width: 900px) {
   .nav    { padding: 0 20px; }
   .links  { display: none; }
-  .cta    { font-size: .7rem; padding: 8px 16px; }
+  .cta    { font-size: .8rem; padding: 8px 16px; }
 }
 
 @media (max-width: 600px) {

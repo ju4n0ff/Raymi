@@ -1,9 +1,9 @@
 import styles from '../styles/About.module.css'
 
 const STATS = [
-  { num: '5+',   label: 'Años de experiencia' },
-  { num: '300+', label: 'Sesiones realizadas' },
-  { num: '100%', label: 'Clientes satisfechos' },
+  { num: '2',   label: 'Años en proyectos fotográficos' },
+  { num: '70+', label: 'Coberturas y sesiones entregadas' },
+  { num: '15+', label: 'Marcas y emprendimientos atendidos' },
 ]
 
 export default function About() {
@@ -25,16 +25,17 @@ export default function About() {
         </h2>
 
         <p className={styles.bio}>
-          Soy fotógrafo profesional con base en Lima, especializado en
-          retratos, bodas, eventos y naturaleza. Mi enfoque es crear imágenes
-          honestas que capturen la emoción del momento sin artificios. Trabajo
-          con luz natural siempre que es posible, y cuando no, la recreo con
-          cuidado y sensibilidad.
+          Soy fotógrafo con base en Lima y aproximadamente dos años de
+          experiencia en producción visual para retratos, eventos y contenido
+          de marca. Mi enfoque combina dirección de imagen, manejo de luz y
+          narrativa para crear fotografías limpias, coherentes y con intención.
         </p>
-        <p className={`${styles.bio} ${styles.bio}`}>
-          Cada cliente es único, cada historia diferente. Me tomo el tiempo
-          de conocer a las personas antes de fotografiarlas, porque la
-          confianza es la base de una gran foto.
+        <p className={styles.bio}>
+          En cada proyecto trabajo desde la preproducción hasta la entrega:
+          definimos objetivo, estilo visual y tiempos claros para que el
+          resultado funcione tanto a nivel emocional como comercial. La
+          prioridad es que cada imagen comunique y represente bien a la persona
+          o negocio detrás de la sesión.
         </p>
 
         <div className={styles.stats}>
