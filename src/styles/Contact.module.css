@@ -51,3 +51,13 @@
 }
 
 .btn:hover .arrow { transform: translateX(4px); }
+
+@media (max-width: 900px) {
+  .contact { padding: 80px 24px; }
+  .btn { padding: 16px 32px; font-size: .8rem; }
+}
+
+@media (max-width: 600px) {
+  .contact { padding: 64px 16px; }
+  .btn { padding: 14px 24px; width: 100%; justify-content: center; }
+}

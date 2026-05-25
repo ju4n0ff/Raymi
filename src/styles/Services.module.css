@@ -33,5 +33,14 @@
 }
 
 @media (max-width: 900px) {
-  .strip { grid-template-columns: 1fr 1fr; }
+  .strip { grid-template-columns: 1fr 1fr; padding: 48px 24px; }
+  .item  { padding: 32px 20px; }
+  .name  { font-size: 1.2rem; }
+}
+
+@media (max-width: 600px) {
+  .strip { grid-template-columns: 1fr; padding: 32px 16px; }
+  .item  { padding: 24px 16px; border-left: none; border-bottom: 1px solid var(--sand); }
+  .item:last-child { border-bottom: none; }
+  .icon  { font-size: 1.5rem; margin-bottom: 12px; }
 }

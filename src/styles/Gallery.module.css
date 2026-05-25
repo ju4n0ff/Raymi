@@ -290,8 +290,27 @@
 }
 
 @media (max-width: 900px) {
-  .slide { flex: 0 0 85%; }
+  .header { padding: 0 24px; margin-bottom: 40px; }
+  .catTabs { padding: 0 24px; gap: 6px; }
+  .tab { font-size: .7rem; padding: 6px 16px; }
+  .track { padding: 0 24px 16px; gap: 12px; }
+  .slide { flex: 0 0 85%; min-width: 240px; }
+  .slideImg { height: 320px; }
   .lbPrev { left: 8px; width: 40px; height: 40px; }
   .lbNext { right: 8px; width: 40px; height: 40px; }
   .lbClose { top: 12px; right: 12px; }
+}
+
+@media (max-width: 600px) {
+  .gallery { padding: 80px 0 60px; }
+  .header { padding: 0 16px; }
+  .catTabs { padding: 0 16px; }
+  .track { padding: 0 16px 12px; gap: 8px; }
+  .slide { flex: 0 0 90%; min-width: 200px; }
+  .slideImg { height: 240px; }
+  .slideLabel { font-size: 1rem; }
+  .caption { font-size: .72rem; }
+  .btn { width: 36px; height: 36px; font-size: .9rem; }
+  .prev { left: 4px; }
+  .next { right: 4px; }
 }

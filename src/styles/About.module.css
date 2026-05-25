@@ -66,7 +66,16 @@
 }
 
 @media (max-width: 900px) {
-  .about   { grid-template-columns: 1fr; }
+  .about   { grid-template-columns: 1fr; padding: 0; }
   .imgWrap { height: 360px; }
+  .imgWrap::before { display: none; }
   .content { padding: 56px 32px; }
+}
+
+@media (max-width: 600px) {
+  .imgWrap { height: 260px; }
+  .content { padding: 40px 20px; }
+  .bio { font-size: .85rem; margin-top: 20px; }
+  .stats { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+  .statNum { font-size: 2rem; }
 }

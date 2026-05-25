@@ -81,6 +81,11 @@
 }
 
 @media (max-width: 900px) {
-  .nav    { padding: 0 24px; }
+  .nav    { padding: 0 20px; }
   .links  { display: none; }
+  .cta    { font-size: .7rem; padding: 8px 16px; }
+}
+
+@media (max-width: 600px) {
+  .logoMark { height: 40px; }
 }

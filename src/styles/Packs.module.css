@@ -173,5 +173,16 @@
 
 @media (max-width: 900px) {
   .packs { padding: 80px 24px; }
-  .grid  { grid-template-columns: 1fr; }
+  .grid  { grid-template-columns: 1fr; margin-top: 40px; }
+  .card  { padding: 36px 24px; }
+}
+
+@media (max-width: 600px) {
+  .packs { padding: 64px 16px; }
+  .card  { padding: 28px 16px; }
+  .name  { font-size: 1.6rem; }
+  .price strong { font-size: 1.8rem; }
+  .price { font-size: .78rem; }
+  .desc  { font-size: .8rem; }
+  .item  { font-size: .78rem; }
 }

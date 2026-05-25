@@ -165,8 +165,24 @@
   animation: scrollLine 1.8s ease-in-out infinite;
 }
 
+@media (max-width: 1024px) {
+  .left  { padding: 120px 40px 80px; }
+}
+
 @media (max-width: 900px) {
-  .hero  { grid-template-columns: 1fr; }
-  .right { display: none; }
-  .left  { padding: 120px 32px 80px; }
+  .hero  { grid-template-columns: 1fr; height: auto; min-height: auto; }
+  .right { display: block; height: 320px; order: -1; }
+  .right::after { background: linear-gradient(to bottom, var(--cream) 0%, transparent 40%); }
+  .left  { padding: 48px 24px 60px; }
+  .tagline { display: none; }
+}
+
+@media (max-width: 600px) {
+  .left  { padding: 40px 20px 48px; }
+  .title { font-size: clamp(2rem, 10vw, 3rem); }
+  .desc  { font-size: .85rem; max-width: 100%; margin-bottom: 32px; }
+  .actions { flex-direction: column; align-items: stretch; }
+  .btnPrimary { text-align: center; }
+  .btnGhost { justify-content: center; padding: 14px 36px; }
+  .right { height: 240px; }
 }
