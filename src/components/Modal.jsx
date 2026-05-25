@@ -1,49 +1,99 @@
 import { useState, useEffect } from 'react'
-import { CONTACT_INFO, PACKS } from '../data'
+import { CATS } from '../data'
 import styles from '../styles/Modal.module.css'
 import { enviarMensaje } from '../services/contactService'
 
+const SERVICE_TYPES = CATS.filter(c => c.key !== 'all')
+
 const INITIAL_FORM = {
   nombre:   '',
-  email:    '',
   telefono: '',
-  pack:     '',
+  servicio: '',
+  fecha:    '',
   mensaje:  '',
+}
+
+const PHONE_RE = /^[\d\s\+\-\(\)]{7,}$/
+
+function validate(form) {
+  const errors = {}
+  if (!form.nombre.trim()) errors.nombre = 'Nombre es requerido'
+  if (!form.telefono.trim()) errors.telefono = 'WhatsApp es requerido'
+  else if (!PHONE_RE.test(form.telefono)) errors.telefono = 'Número inválido'
+  if (!form.servicio) errors.servicio = 'Selecciona un servicio'
+  return errors
 }
 
 export default function Modal({ isOpen, onClose, preselect }) {
   const [form, setForm] = useState(INITIAL_FORM)
+  const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
-   useEffect(() => {
+  useEffect(() => {
     if (preselect) {
-      setForm((prev) => ({ ...prev, pack: `Pack ${preselect}` }))
+      setForm((prev) => ({ ...prev, servicio: preselect }))
     }
   }, [preselect])
 
-  const set = (key) => (e) =>
-    setForm((prev) => ({ ...prev, [key]: e.target.value }))
+  useEffect(() => {
+    if (!isOpen) {
+      setErrors({})
+      setSubmitting(false)
+      setSent(false)
+      setSubmitError('')
+      setForm(INITIAL_FORM)
+    }
+  }, [isOpen])
+
+  const set = (key) => (e) => {
+    const value = e.target.value
+    setForm((prev) => ({ ...prev, [key]: value }))
+    if (errors[key]) {
+      setErrors((prev) => {
+        const next = { ...prev }
+        delete next[key]
+        return next
+      })
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitError('')
 
-    try{
+    const validationErrors = validate(form)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+
+    setSubmitting(true)
+
+    try {
       await enviarMensaje(form)
-    
       setSent(true)
       setTimeout(() => {
         setSent(false)
-        setForm(INITIAL_FORM)
         onClose()
-    }, 2800)
-    } catch(error){
-      alert('Error al enviar mensaje: '+error.message)
+      }, 2800)
+    } catch {
+      setSubmitError('No se pudo enviar el mensaje. Inténtalo de nuevo.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
   const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) onClose()
+    if (e.target === e.currentTarget && !submitting) onClose()
   }
+
+  const fieldClass = (name) =>
+    `${styles.formGroup}${errors[name] ? ` ${styles.fieldError}` : ''}`
+
+  const renderError = (name) =>
+    errors[name] ? <span className={styles.errorText}>{errors[name]}</span> : null
 
   return (
     <div
@@ -62,97 +112,124 @@ export default function Modal({ isOpen, onClose, preselect }) {
           <h2 className={styles.title} id="modal-title">
             Hablemos de<br /><em>tu historia</em>
           </h2>
-          <button className={styles.close} onClick={onClose} aria-label="Cerrar">
+          <button
+            className={styles.close}
+            onClick={onClose}
+            disabled={submitting}
+            aria-label="Cerrar"
+          >
             ✕
           </button>
         </div>
 
         {/* Body */}
         <div className={styles.body}>
-          {/* Info strip */}
-          <div className={styles.infoStrip}>
-            {CONTACT_INFO.map((info) => (
-              <div className={styles.infoItem} key={info.label}>
-                <span className={styles.infoIcon}>{info.icon}</span>
-                <div>
-                  <div className={styles.infoLabel}>{info.label}</div>
-                  <div className={styles.infoValue}>{info.value}</div>
+          {sent ? (
+            <div className={styles.successMessage}>
+              <span className={styles.successIcon}>✓</span>
+              <h3>¡Mensaje enviado!</h3>
+              <p>Te responderé al WhatsApp lo antes posible.</p>
+            </div>
+          ) : (
+            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+              <div className={styles.formRow}>
+                <div className={fieldClass('nombre')}>
+                  <label htmlFor="nombre">Nombre</label>
+                  <input
+                    id="nombre"
+                    type="text"
+                    placeholder="Tu nombre completo"
+                    value={form.nombre}
+                    onChange={set('nombre')}
+                    disabled={submitting}
+                    aria-invalid={!!errors.nombre}
+                  />
+                  {renderError('nombre')}
+                </div>
+
+                <div className={fieldClass('telefono')}>
+                  <label htmlFor="telefono">WhatsApp</label>
+                  <input
+                    id="telefono"
+                    type="tel"
+                    placeholder="+51 9XX XXX XXX"
+                    value={form.telefono}
+                    onChange={set('telefono')}
+                    disabled={submitting}
+                    aria-invalid={!!errors.telefono}
+                  />
+                  {renderError('telefono')}
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* Form */}
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.formRow}>
-              <div className={styles.formGroup}>
-                <label htmlFor="nombre">Nombre</label>
-                <input
-                  id="nombre"
-                  type="text"
-                  placeholder="Tu nombre completo"
-                  value={form.nombre}
-                  onChange={set('nombre')}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="email">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="tu@email.com"
-                  value={form.email}
-                  onChange={set('email')}
-                />
-              </div>
-            </div>
+              <div className={styles.formRow}>
+                <div className={fieldClass('servicio')}>
+                  <label htmlFor="servicio">Tipo de sesión</label>
+                  <select
+                    id="servicio"
+                    value={form.servicio}
+                    onChange={set('servicio')}
+                    disabled={submitting}
+                  >
+                    <option value="">Selecciona un servicio</option>
+                    {SERVICE_TYPES.map((s) => (
+                      <option key={s.key} value={s.label}>
+                        {s.label}
+                      </option>
+                    ))}
+                    <option value="Otro">Otro</option>
+                  </select>
+                  {renderError('servicio')}
+                </div>
 
-            <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="fecha">Fecha estimada</label>
+                  <input
+                    id="fecha"
+                    type="date"
+                    value={form.fecha}
+                    onChange={set('fecha')}
+                    disabled={submitting}
+                  />
+                </div>
+              </div>
+
               <div className={styles.formGroup}>
-                <label htmlFor="telefono">Teléfono</label>
-                <input
-                  id="telefono"
-                  type="tel"
-                  placeholder="+51 9XX XXX XXX"
-                  value={form.telefono}
-                  onChange={set('telefono')}
+                <label htmlFor="mensaje">Detalles (opcional)</label>
+                <textarea
+                  id="mensaje"
+                  placeholder="Cuéntame más sobre lo que necesitas..."
+                  value={form.mensaje}
+                  onChange={set('mensaje')}
+                  disabled={submitting}
+                  rows={3}
                 />
               </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="pack">Tipo de servicio</label>
-                <select
-                  id="pack"
-                  value={form.pack}
-                  onChange={set('pack')}
+
+              {submitError && (
+                <div className={styles.submitError}>{submitError}</div>
+              )}
+
+              <button
+                type="submit"
+                className={`${styles.submit}${submitting ? ` ${styles.submitting}` : ''}`}
+                disabled={submitting}
+              >
+                {submitting ? 'Enviando...' : 'Enviar mensaje →'}
+              </button>
+
+              <p className={styles.whatsappHint}>
+                ¿Prefieres escribir directo?{' '}
+                <a
+                  href="https://api.whatsapp.com/send?phone=51952365703&text=Hola%2C+te+escribo+por..."
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <option value="">Selecciona un pack</option>
-                  {PACKS.map((p) => (
-                    <option key={p.name} value={`Pack ${p.name}`}>
-                      Pack {p.name}
-                    </option>
-                  ))}
-                  <option value="Pack personalizado">Pack personalizado</option>
-                </select>
-              </div>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="mensaje">Cuéntame sobre tu proyecto</label>
-              <textarea
-                id="mensaje"
-                placeholder="¿Qué tipo de sesión buscas? ¿Tienes una fecha en mente? Cuéntame todo..."
-                value={form.mensaje}
-                onChange={set('mensaje')}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className={`${styles.submit}${sent ? ` ${styles.sent}` : ''}`}
-            >
-              {sent ? '✓ Mensaje enviado' : 'Enviar mensaje →'}
-            </button>
-          </form>
+                  Escríbeme por WhatsApp →
+                </a>
+              </p>
+            </form>
+          )}
         </div>
       </div>
     </div>

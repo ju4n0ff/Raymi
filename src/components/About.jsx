@@ -11,10 +11,6 @@ export default function About() {
     <section className={styles.about} id="about">
       {/* Image */}
       <div className={`${styles.imgWrap} reveal from-left`}>
-        {/*
-          Reemplaza src con tu foto de perfil/estudio:
-          src="/fotos/sobre-mi.jpg"
-        */}
         <img
           src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=700&q=80"
           alt="El fotógrafo"

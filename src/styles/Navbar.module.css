@@ -28,16 +28,9 @@
 }
 
 .logoMark {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid var(--terracota);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--terracota);
-  font-size: 1.1rem;
-  /* Replace contents with <img src="/logo.svg" alt="Logo" /> */
+  height: 60px;
+  width: auto;
+  display: block;
 }
 
 .links {

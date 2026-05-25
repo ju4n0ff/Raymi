@@ -4,6 +4,10 @@ export function useCustomCursor() {
   const cursorRef = useRef(null)
 
   useEffect(() => {
+    const isTouch = window.matchMedia('(pointer: coarse)').matches
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (isTouch || prefersReduced) return
+
     const cursor = cursorRef.current
     if (!cursor) return
 

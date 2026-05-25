@@ -5,6 +5,7 @@ import styles from '../styles/Gallery.module.css'
 export default function Gallery() {
   const [activeCat, setActiveCat] = useState('all')
   const [currentIdx, setCurrentIdx] = useState(0)
+  const [lightboxIdx, setLightboxIdx] = useState(null)
   const trackRef    = useRef(null)
   const isDragging  = useRef(false)
   const startX      = useRef(0)
@@ -30,11 +31,36 @@ export default function Gallery() {
     scrollToIdx(next)
   }
 
+  const lbSlideBy = (dir) => {
+    setLightboxIdx((prev) => {
+      const next = prev + dir
+      if (next < 0) return visible.length - 1
+      if (next >= visible.length) return 0
+      return next
+    })
+  }
+
   // reset when category changes
   useEffect(() => {
     setCurrentIdx(0)
     trackRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
   }, [activeCat])
+
+  // keyboard for lightbox
+  useEffect(() => {
+    if (lightboxIdx === null) return
+    const handler = (e) => {
+      if (e.key === 'Escape') setLightboxIdx(null)
+      if (e.key === 'ArrowLeft') lbSlideBy(-1)
+      if (e.key === 'ArrowRight') lbSlideBy(1)
+    }
+    window.addEventListener('keydown', handler)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', handler)
+      document.body.style.overflow = ''
+    }
+  }, [lightboxIdx])
 
   /* ── drag to scroll ── */
   const onMouseDown = (e) => {
@@ -124,13 +150,17 @@ export default function Gallery() {
           onTouchEnd={onTouchEnd}
           onScroll={onScroll}
         >
-          {visible.map((s) => (
-            <div className={styles.slide} key={s.id} data-cat={s.cat}>
+          {visible.map((s, i) => (
+            <div
+              className={styles.slide}
+              key={s.id}
+              data-cat={s.cat}
+              onClick={() => setLightboxIdx(i)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter') setLightboxIdx(i) }}
+            >
               <div className={styles.slideImg}>
-                {/*
-                  Reemplaza src con la ruta de tu foto:
-                  src={`/fotos/${s.filename}`}
-                */}
                 <img src={s.src} alt={s.label} draggable={false} />
                 <div className={styles.overlay}>
                   <span className={styles.slideLabel}>{s.label}</span>
@@ -157,6 +187,50 @@ export default function Gallery() {
           />
         ))}
       </div>
+
+      {/* Lightbox */}
+      {lightboxIdx !== null && (
+        <div
+          className={styles.lightbox}
+          onClick={(e) => { if (e.target === e.currentTarget) setLightboxIdx(null) }}
+        >
+          <button
+            className={styles.lbClose}
+            onClick={() => setLightboxIdx(null)}
+            aria-label="Cerrar"
+          >
+            ✕
+          </button>
+
+          <button
+            className={`${styles.lbArrow} ${styles.lbPrev}`}
+            onClick={() => lbSlideBy(-1)}
+            aria-label="Anterior"
+          >
+            ←
+          </button>
+
+          <div className={styles.lbImage}>
+            <img src={visible[lightboxIdx].src} alt={visible[lightboxIdx].label} />
+            <div className={styles.lbInfo}>
+              <span>{visible[lightboxIdx].label}</span>
+              <span>{visible[lightboxIdx].caption}</span>
+            </div>
+          </div>
+
+          <button
+            className={`${styles.lbArrow} ${styles.lbNext}`}
+            onClick={() => lbSlideBy(1)}
+            aria-label="Siguiente"
+          >
+            →
+          </button>
+
+          <div className={styles.lbCounter}>
+            {lightboxIdx + 1} / {visible.length}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

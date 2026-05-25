@@ -18,3 +18,11 @@
   background: transparent;
   border: 1.5px solid var(--terracota);
 }
+
+@media (pointer: coarse) {
+  .cursor { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor { display: none !important; }
+}

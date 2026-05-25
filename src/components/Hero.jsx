@@ -30,7 +30,7 @@ export default function Hero({ onGallery, onPacks }) {
         </h1>
 
         <p className={styles.desc}>
-          Retratos, bodas, eventos y naturaleza. Capturo la esencia de tus
+          Retratos, bodas, bautizos y más. Capturo la esencia de tus
           momentos más valiosos con luz natural y una mirada auténtica.
         </p>
 
@@ -51,7 +51,7 @@ export default function Hero({ onGallery, onPacks }) {
        <div className={styles.right}>
  
         <img
-          src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&q=80"
+          src="/images/hero.avif"
           alt="Fotografía de retrato"
         />
       </div>
