@@ -1,5 +1,6 @@
 import { useNavScroll } from '../hooks/useNavScroll'
 import styles from '../styles/Navbar.module.css'
+import { Link } from 'react-router-dom'
 
 const NAV_LINKS = [
   { href: '#galeria',  label: 'Galería' },
@@ -20,7 +21,7 @@ export default function Navbar({ onContact }) {
       <ul className={styles.links}>
         {NAV_LINKS.map(({ href, label }) => (
           <li key={href}>
-            <a href={href}>{label}</a>
+            <Link to={href}>{label}</Link>
           </li>
         ))}
       </ul>

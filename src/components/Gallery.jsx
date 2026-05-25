@@ -64,9 +64,9 @@ export default function Gallery() {
 
   /* ── drag to scroll ── */
   const onMouseDown = (e) => {
-    isDragging.current  = true
-    startX.current      = e.pageX - trackRef.current.offsetLeft
-    scrollLeft.current  = trackRef.current.scrollLeft
+    isDragging.current = true
+    startX.current = e.pageX - trackRef.current.offsetLeft
+    scrollLeft.current = trackRef.current.scrollLeft
     trackRef.current.classList.add(styles.grabbing)
   }
   const onMouseLeave = () => {
@@ -86,7 +86,7 @@ export default function Gallery() {
 
   /* ── touch ── */
   const onTouchStart = (e) => { touchStart.current = e.touches[0].clientX }
-  const onTouchEnd   = (e) => {
+  const onTouchEnd = (e) => {
     const diff = touchStart.current - e.changedTouches[0].clientX
     if (Math.abs(diff) > 40) slideBy(diff > 0 ? 1 : -1)
   }
@@ -107,6 +107,7 @@ export default function Gallery() {
   }
 
   return (
+
     <section className={styles.gallery} id="galeria">
       {/* Header */}
       <div className={`${styles.header} reveal`}>
@@ -175,6 +176,9 @@ export default function Gallery() {
           →
         </button>
       </div>
+
+
+
 
       {/* Dots */}
       <div className={styles.dots}>

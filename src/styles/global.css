@@ -74,17 +74,6 @@ button { font-family: 'Jost', sans-serif; }
   margin-inline: auto;
 }
 
-/* ── Scroll reveal ──────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
-}
-
-.reveal.from-left  { transform: translateX(-40px); }
-.reveal.from-right { transform: translateX(40px); }
-.reveal.visible    { opacity: 1; transform: none; }
-
 /* ── Keyframes ──────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }

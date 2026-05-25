@@ -1,5 +1,6 @@
 
   import Home from './pages/Home'
+  import Gallery from './components/Gallery'
   import Packs from './components/Packs'
   import Error from './pages/Error'
   import Cursor from './components/Cursor'
@@ -16,7 +17,9 @@
           <Routes>
             <Route path='/' element={<MainLayout />}>
               <Route index element={<Home />} />
+              <Route path='/Gallery' element={<Gallery />} />
              </Route>
+              
             <Route path='*' element={<Error />} />
           </Routes>
 
