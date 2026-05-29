@@ -122,7 +122,7 @@ export const PACKS = [
   {
     badge: '🔥 Mas popular',
     name: 'Pack Urbano Pro',
-    price: 'S/ 290',
+    price: 'S/ 240',
     featured: true,
     desc: 'Ideal para marca personal, parejas y contenido editorial en exteriores.',
     items: [
@@ -136,7 +136,7 @@ export const PACKS = [
   {
     badge: '🎉 Cobertura social',
     name: 'Eventos y Celebraciones',
-    price: 'S/ 380',
+    price: 'S/ 550',
     featured: false,
     desc: 'Cobertura profesional para cumpleanos, bautizos y celebraciones privadas.',
     items: [
@@ -150,7 +150,7 @@ export const PACKS = [
   {
     badge: '💍 Wedding Story',
     name: 'Bodas Esencial',
-    price: 'S/ 890',
+    price: 'S/ 1400',
     featured: false,
     desc: 'Narrativa completa de boda civil o religiosa con enfoque documental.',
     items: [
@@ -164,7 +164,7 @@ export const PACKS = [
   {
     badge: '🏢 Comercial',
     name: 'Marca y Negocio',
-    price: 'S/ 450',
+    price: 'S/ 650',
     featured: false,
     desc: 'Contenido fotografico para empresas, emprendedores y redes sociales.',
     items: [
