@@ -12,6 +12,7 @@ const DEFAULTS = {
   lineSpacing: 'normal',
   readingMask: false,
   bigCursor: false,
+  readAloud: false,
 }
 
 function loadSettings() {
@@ -33,6 +34,96 @@ function applyToDoc(settings) {
   root.setAttribute('data-big-cursor', settings.bigCursor ? 'true' : 'false')
 }
 
+/* ── Read aloud logic ──────────────────────── */
+const IGNORED_TAGS = new Set(['SCRIPT', 'STYLE', 'SVG', 'PATH', 'NOSCRIPT'])
+const IGNORE_CLASSES = ['skip-link', 'bigCursor', 'mask', 'toggle', 'panel']
+
+function isIgnored(el) {
+  if (!el || el === document.body || el === document.documentElement) return true
+  if (IGNORED_TAGS.has(el.tagName)) return true
+  if (el.getAttribute('aria-hidden') === 'true') return true
+  const cl = el.className
+  if (typeof cl === 'string' && IGNORE_CLASSES.some((c) => cl.includes(c))) return true
+  return false
+}
+
+function extractText(el) {
+  const tag = el.tagName
+
+  if (tag === 'IMG') {
+    const alt = el.getAttribute('alt')
+    if (alt) return `Imagen: ${alt}`
+    return null
+  }
+
+  if (tag === 'A') {
+    const text = el.textContent.trim()
+    const label = el.getAttribute('aria-label')
+    const href = el.getAttribute('href') || ''
+    const display = label || text
+    if (!display) return null
+    if (/^https?:\/\//.test(href)) return `Enlace externo: ${display}`
+    if (href.startsWith('#')) return `Enlace: ${display}`
+    if (href.startsWith('mailto:')) return `Correo: ${display}`
+    return `Enlace: ${display}`
+  }
+
+  if (tag === 'BUTTON') {
+    const label = el.getAttribute('aria-label') || el.textContent.trim()
+    if (!label) return null
+    return `Botón: ${label}`
+  }
+
+  if (/^H[1-6]$/.test(tag)) {
+    const text = el.textContent.trim()
+    if (!text) return null
+    const level = tag[1]
+    return level === '1' ? text : `Título: ${text}`
+  }
+
+  if (['INPUT', 'SELECT', 'TEXTAREA'].includes(tag)) {
+    const id = el.getAttribute('id')
+    let labelText = null
+    if (id) {
+      const labelEl = document.querySelector(`label[for="${id}"]`)
+      if (labelEl) labelText = labelEl.textContent.trim()
+    }
+    const display = el.getAttribute('aria-label') || labelText || el.getAttribute('placeholder') || 'Campo de formulario'
+    const value = el.value ? `: ${el.value}` : ''
+    return `${display}${value}`
+  }
+
+  return null
+}
+
+function findMeaningful(el) {
+  let current = el
+  let depth = 0
+  while (current && depth < 6) {
+    if (!isIgnored(current)) {
+      const text = extractText(current)
+      if (text) return text
+      if (current.hasAttribute('aria-label')) {
+        return current.getAttribute('aria-label')
+      }
+    }
+    if (current.classList) {
+      if (current.classList.contains('section-tag') || current.classList.contains('section-title')) {
+        return current.textContent.trim()
+      }
+      const hasName = Array.from(current.classList).some((c) => c.includes('name') || c.includes('title') || c.includes('badge'))
+      if (hasName) {
+        const t = current.textContent.trim()
+        if (t && t.length > 2) return t
+      }
+    }
+    current = current.parentElement
+    depth++
+  }
+  return null
+}
+
+/* ── Component ─────────────────────────────── */
 export default function AccessibilityPanel() {
   const [open, setOpen] = useState(false)
   const [settings, setSettings] = useState(loadSettings)
@@ -111,6 +202,44 @@ export default function AccessibilityPanel() {
     return () => window.removeEventListener('mousemove', move)
   }, [settings.bigCursor])
 
+  /* ── Read aloud ── */
+  useEffect(() => {
+    if (!settings.readAloud) return
+
+    let timer = null
+    let currentEl = null
+
+    const speak = (text) => {
+      if (!text) return
+      window.speechSynthesis.cancel()
+      const u = new SpeechSynthesisUtterance(text)
+      u.lang = 'es-PE'
+      u.rate = 0.92
+      u.pitch = 1
+      window.speechSynthesis.speak(u)
+    }
+
+    const onOver = (e) => {
+      const target = e.target
+      if (target === currentEl) return
+      if (isIgnored(target)) return
+      currentEl = target
+      clearTimeout(timer)
+      window.speechSynthesis.cancel()
+      timer = setTimeout(() => {
+        const text = findMeaningful(target)
+        if (text) speak(text)
+      }, 400)
+    }
+
+    document.addEventListener('mouseover', onOver, { passive: true })
+    return () => {
+      clearTimeout(timer)
+      window.speechSynthesis.cancel()
+      document.removeEventListener('mouseover', onOver)
+    }
+  }, [settings.readAloud])
+
   const fontSizeLabel =
     settings.fontSize === 'normal'
       ? 'Normal'
@@ -162,7 +291,6 @@ export default function AccessibilityPanel() {
           </div>
 
           <div className={styles.options + ' ' + styles.scrollable}>
-            {/* Tamaño de fuente */}
             <button
               className={`${styles.option}${settings.fontSize !== 'normal' ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('fontSize')}
@@ -173,7 +301,6 @@ export default function AccessibilityPanel() {
               <span className={styles.optionValue}>{fontSizeLabel}</span>
             </button>
 
-            {/* Alto contraste */}
             <button
               className={`${styles.option}${settings.contrast === 'high' ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('contrast')}
@@ -189,7 +316,6 @@ export default function AccessibilityPanel() {
               <span className={styles.optionValue}>{settings.contrast === 'high' ? 'Activado' : 'Desactivado'}</span>
             </button>
 
-            {/* Interlineado */}
             <button
               className={`${styles.option}${settings.lineSpacing !== 'normal' ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('lineSpacing')}
@@ -204,7 +330,6 @@ export default function AccessibilityPanel() {
               <span className={styles.optionValue}>{lineSpacingLabel}</span>
             </button>
 
-            {/* Dislexia amigable */}
             <button
               className={`${styles.option}${settings.dyslexia ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('dyslexia')}
@@ -221,7 +346,6 @@ export default function AccessibilityPanel() {
               <span className={styles.optionValue}>{settings.dyslexia ? 'Activado' : 'Desactivado'}</span>
             </button>
 
-            {/* Máscara de lectura */}
             <button
               className={`${styles.option}${settings.readingMask ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('readingMask')}
@@ -237,7 +361,6 @@ export default function AccessibilityPanel() {
               <span className={styles.optionValue}>{settings.readingMask ? 'Activado' : 'Desactivado'}</span>
             </button>
 
-            {/* Cursor grande */}
             <button
               className={`${styles.option}${settings.bigCursor ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('bigCursor')}
@@ -252,7 +375,23 @@ export default function AccessibilityPanel() {
               <span className={styles.optionValue}>{settings.bigCursor ? 'Activado' : 'Desactivado'}</span>
             </button>
 
-            {/* Subrayar enlaces */}
+            <button
+              className={`${styles.option}${settings.readAloud ? ` ${styles.active}` : ''}`}
+              onClick={() => toggle('readAloud')}
+              aria-pressed={settings.readAloud}
+            >
+              <span className={styles.optionIcon}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+                  <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
+                  <path d="M19 10v2a7 7 0 01-14 0v-2" />
+                  <path d="M12 19v4" />
+                  <path d="M8 23h8" />
+                </svg>
+              </span>
+              <span className={styles.optionLabel}>Lectura en voz alta</span>
+              <span className={styles.optionValue}>{settings.readAloud ? 'Activado' : 'Desactivado'}</span>
+            </button>
+
             <button
               className={`${styles.option}${settings.underline ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('underline')}
@@ -268,7 +407,6 @@ export default function AccessibilityPanel() {
               <span className={styles.optionValue}>{settings.underline ? 'Activado' : 'Desactivado'}</span>
             </button>
 
-            {/* Escala de grises */}
             <button
               className={`${styles.option}${settings.grayscale ? ` ${styles.active}` : ''}`}
               onClick={() => toggle('grayscale')}
@@ -287,7 +425,6 @@ export default function AccessibilityPanel() {
         </div>
       )}
 
-      {/* Reading mask overlay */}
       {settings.readingMask && (
         <div className={styles.mask} ref={maskRef} aria-hidden="true">
           <div className={styles.maskTop} />
@@ -296,7 +433,6 @@ export default function AccessibilityPanel() {
         </div>
       )}
 
-      {/* Big cursor */}
       {settings.bigCursor && (
         <div className={styles.bigCursor} ref={cursorRef} aria-hidden="true">
           <svg viewBox="0 0 32 32" fill="none">
