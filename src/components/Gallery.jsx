@@ -2,6 +2,8 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import { SLIDES, CATS } from '../data'
 import styles from '../styles/Gallery.module.css'
 
+const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
 export default function Gallery() {
   const [activeCat, setActiveCat] = useState('all')
   const [currentIdx, setCurrentIdx] = useState(0)
@@ -11,6 +13,8 @@ export default function Gallery() {
   const startX      = useRef(0)
   const scrollLeft  = useRef(0)
   const touchStart  = useRef(0)
+  const lightboxRef = useRef(null)
+  const previousFocusRef = useRef(null)
 
   const visible = SLIDES.filter(
     (s) => activeCat === 'all' || s.cat === activeCat
@@ -49,16 +53,36 @@ export default function Gallery() {
   // keyboard for lightbox
   useEffect(() => {
     if (lightboxIdx === null) return
+    previousFocusRef.current = document.activeElement
+    const timer = setTimeout(() => {
+      const focusable = lightboxRef.current?.querySelectorAll(FOCUSABLE)
+      if (focusable?.length > 0) focusable[0].focus()
+    }, 100)
+    document.body.style.overflow = 'hidden'
     const handler = (e) => {
       if (e.key === 'Escape') setLightboxIdx(null)
       if (e.key === 'ArrowLeft') lbSlideBy(-1)
       if (e.key === 'ArrowRight') lbSlideBy(1)
+      if (e.key === 'Tab') {
+        const focusable = lightboxRef.current?.querySelectorAll(FOCUSABLE)
+        if (!focusable?.length) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
     }
     window.addEventListener('keydown', handler)
-    document.body.style.overflow = 'hidden'
     return () => {
+      clearTimeout(timer)
       window.removeEventListener('keydown', handler)
       document.body.style.overflow = ''
+      previousFocusRef.current?.focus()
     }
   }, [lightboxIdx])
 
@@ -135,9 +159,9 @@ export default function Gallery() {
 
       {/* Carousel */}
       <div className={styles.carouselWrap}>
-        <button className={`${styles.btn} ${styles.prev}`} onClick={() => slideBy(-1)}>
-          ←
-        </button>
+        <button className={`${styles.btn} ${styles.prev}`} onClick={() => slideBy(-1)} aria-label="Anterior">
+            ←
+          </button>
 
         <div
           className={styles.track}
@@ -161,7 +185,7 @@ export default function Gallery() {
               onKeyDown={(e) => { if (e.key === 'Enter') setLightboxIdx(i) }}
             >
               <div className={styles.slideImg}>
-                <img src={s.src} alt={s.label} draggable={false} />
+                <img src={s.src} alt={s.caption || s.label} draggable={false} />
                 <div className={styles.overlay}>
                   <span className={styles.slideLabel}>{s.label}</span>
                 </div>
@@ -171,9 +195,9 @@ export default function Gallery() {
           ))}
         </div>
 
-        <button className={`${styles.btn} ${styles.next}`} onClick={() => slideBy(1)}>
-          →
-        </button>
+        <button className={`${styles.btn} ${styles.next}`} onClick={() => slideBy(1)} aria-label="Siguiente">
+            →
+          </button>
       </div>
 
       {/* Dots */}
@@ -193,6 +217,10 @@ export default function Gallery() {
         <div
           className={styles.lightbox}
           onClick={(e) => { if (e.target === e.currentTarget) setLightboxIdx(null) }}
+          ref={lightboxRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Vista previa de imagen"
         >
           <button
             className={styles.lbClose}
@@ -211,7 +239,7 @@ export default function Gallery() {
           </button>
 
           <div className={styles.lbImage}>
-            <img src={visible[lightboxIdx].src} alt={visible[lightboxIdx].label} />
+            <img src={visible[lightboxIdx].src} alt={visible[lightboxIdx].caption || visible[lightboxIdx].label} />
             <div className={styles.lbInfo}>
               <span>{visible[lightboxIdx].label}</span>
               <span>{visible[lightboxIdx].caption}</span>

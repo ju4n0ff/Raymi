@@ -12,7 +12,7 @@ export default function Packs({ onReserve }) {
         <h2 className="section-title" style={{ color: 'var(--cream)' }}>
           Encuentra el pack<br /><em>perfecto para ti</em>
         </h2>
-        <p className="section-desc" style={{ color: 'rgba(245,240,232,.5)' }}>
+        <p className="section-desc" style={{ color: 'rgba(245,240,232,.75)' }}>
           Todos los packs incluyen edición profesional y entrega en alta
           resolución. Precios en soles peruanos.
         </p>

@@ -44,22 +44,22 @@ export default function Footer() {
         </div>
 
         <div className={styles.column}>
-          <h4>Menú</h4>
-          <a href="#">Galería</a>
-          <a href="#">Nosotros</a>
-          <a href="#">Packs</a>
-          <a href="#">Contacto</a>
+          <h3>Menú</h3>
+          <a href="#galeria">Galería</a>
+          <a href="#about">Nosotros</a>
+          <a href="#packs">Packs</a>
+          <a href="#contacto">Contacto</a>
         </div>
 
         <div className={styles.column}>
-          <h4>Contacto</h4>
+          <h3>Contacto</h3>
           <a href="mailto:raymifotografia24@gmail.com">raymifotografia24@gmail.com</a>
           <span>+51 952 365 703</span>
           <span>Lima, Perú</span>
         </div>
 
         <div className={styles.column}>
-          <h4>Sígueme</h4>
+          <h3>Sígueme</h3>
           <div className={styles.socials}>
             {SOCIALS.map((s) => (
               <a

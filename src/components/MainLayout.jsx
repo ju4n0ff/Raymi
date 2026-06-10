@@ -9,8 +9,11 @@ export default function MainLayout(){
     const {isOpen,preselect, open,close} = useModal();
 
     return (<>
+        <a href="#main-content" className="skip-link">
+            Saltar al contenido principal
+        </a>
         <Navbar onContact={()=>open()}/>
-        <main>
+        <main id="main-content">
             <Outlet context={{open}}/>
         </main>
         <Footer/>

@@ -16,6 +16,10 @@
   box-shadow: 0 1px 0 var(--sand);
 }
 
+.nav.menuOpen {
+  background: rgba(245, 240, 232, .98);
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -61,7 +65,7 @@
 .links a:hover           { color: var(--terracota); }
 .links a:hover::after    { width: 100%; }
 
-.cta {
+.desktopCta {
   font-size: .86rem;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -75,15 +79,101 @@
   transition: background .3s, transform .2s;
 }
 
-.cta:hover {
+.desktopCta:hover {
   background: var(--terra-dk);
   transform: translateY(-1px);
 }
 
+/* ── Hamburger ──────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 110;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--brown);
+  border-radius: 1px;
+  transition: transform .3s var(--ease), opacity .3s var(--ease);
+}
+
+.hamburgerOpen span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburgerOpen span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburgerOpen span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Mobile menu overlay ────────────────── */
+.linksOpen {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0; bottom: 0;
+  background: rgba(245, 240, 232, .98);
+  backdrop-filter: blur(12px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 48px 24px;
+  gap: 32px;
+  font-size: 1.2rem;
+  z-index: 105;
+  animation: fadeIn .25s var(--ease);
+}
+
+.mobileCtaItem {
+  display: none;
+}
+
+.linksOpen .mobileCtaItem {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+}
+
+.linksOpen .mobileCtaItem .cta {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: .86rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--white);
+  background: var(--terracota);
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: background .3s;
+}
+
+.linksOpen .mobileCtaItem .cta:hover {
+  background: var(--terra-dk);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 @media (max-width: 900px) {
   .nav    { padding: 0 20px; }
-  .links  { display: none; }
-  .cta    { font-size: .8rem; padding: 8px 16px; }
+  .desktopCta { display: none; }
+  .hamburger   { display: flex; }
 }
 
 @media (max-width: 600px) {

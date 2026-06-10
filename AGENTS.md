@@ -2,10 +2,10 @@
 
 ## Project Snapshot
 
-- Single-package React 18 + Vite 5 app (no monorepo). No TypeScript, no test framework.
-- Entrypoint: `src/main.jsx` → `src/App.jsx`. `BrowserRouter` from `react-router-dom` v7.
-- `MainLayout` wraps the home route and owns shared state (`Navbar`, `Footer`, `Modal`, `WhatsAppButton`). Global `<Cursor />` sits outside `<Routes>` in `App.jsx`.
-- `MainLayout` passes `{ open }` (modal trigger) via `<Outlet context={{open}}/>`; `Home` retrieves it with `useOutletContext()` and distributes as `open`/`onReserve`/`onOpen` props to children.
+- Single-package React 18 + Vite 5 app (no TypeScript, no tests). Entrypoints: `src/main.jsx` → `src/App.jsx`.
+- `react-router-dom` v7 with `BrowserRouter`. `MainLayout` wraps the home route via `<Outlet>` and owns shared state (`Navbar`, `Footer`, `Modal`, `WhatsAppButton`). `<Cursor />` sits outside `<Routes>` in `App.jsx`.
+- `MainLayout` uses `useModal` from `src/hooks/useModal.js` and passes `{ open }` via `<Outlet context={{open}}/>`. `Home` retrieves it with `useOutletContext()` and forwards to `Packs`/`Contact`.
+- Fonts loaded from Google Fonts: Cormorant Garamond, Jost, Rajdhani (`index.html`).
 
 ## Commands
 
@@ -13,27 +13,28 @@
 |---|---|
 | `npm run dev` | Vite dev server |
 | `npm run build` | Production build (main verification step) |
-| `npm run lint` | ESLint on `src/`, **zero warnings allowed** (`--max-warnings 0`) |
+| `npm run preview` | Vite preview of built site |
+| `npm run lint` | ESLint on `src/`, **zero warnings** (`--max-warnings 0`) |
 | `npm run format` | Prettier writes in-place to `src/` |
-
-No test or typecheck scripts exist.
 
 ## Code Conventions
 
 - **Prettier** (`.prettierrc`): no semicolons, single quotes, trailing commas (`es5`), printWidth 100, tabWidth 2.
-- **ESLint**: `react/prop-types` off, `no-unused-vars` as `warn` with `argsIgnorePattern: "^_"`.
-- **Styling**: CSS Modules per component (`*.module.css`) + global styles in `src/styles/global.css`.
-- **Images**: All photos in AVIF format. Source originals go in `raw/<category>/`; run `node scripts/convertir.mjs` to convert + resize (max 1200 px, quality 80) into `public/images/<category>/`. Special files (hero, about, logo) live in `raw/` root.
-- **Photo wall** (`PHOTO_WALL` in data): images from `public/images/mosaico/` loaded via Vite glob. File naming convention: `v<N>` = portrait, `h<N>` = landscape, `s<N>` = square.
+- **ESLint** (`.eslintrc.json`): `react/prop-types` off, `no-unused-vars` as `warn` with `argsIgnorePattern: "^_"`.
+- **Styling**: CSS Modules in `src/styles/*.module.css` (flat, not co-located) + `src/styles/global.css`. Exception: `Error.css` is a plain CSS file (not a module). Shared helpers: `.section-tag`, `.section-title`, `.section-desc`, `.reveal` (scroll-triggered animation classes).
+- **Images**: All photos in AVIF format. Source originals go in `raw/<category>/`; run `node scripts/convertir.mjs` to convert + resize (max 1200 px, quality 80) into `public/images/<category>/`. Special files: `raw/hero.*` → `public/images/hero.avif` (1600px), `raw/about.*` → `public/images/about.avif` (800px), `raw/logo.*` → `public/images/logo.avif` (800px).
+- **Photo wall** (`PHOTO_WALL` in data): images from `public/images/mosaico/` loaded via Vite glob (`import.meta.glob`). File naming: `v<N>` = portrait, `h<N>` = landscape, `s<N>` = square.
 
 ## Data & Environment
 
-- `src/data/index.js` — single source of truth for all static content: `SLIDES`, `CATS`, `SERVICES`, `PACKS`, `CONTACT_INFO`, `PHOTO_WALL`. Edit data here, never in components.
-- EmailJS contact form in `src/services/contactService.js` sends to raymifotografia24@gmail.com. Requires `.env` with `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, `VITE_EMAILJS_PUBLIC_KEY`. Template expects variables: `nombre`, `telefono`, `servicio`, `fecha`, `mensaje`.
-- `.gitignore` excludes `.env`, `raw/`, `dist/`, `node_modules/`.
+- `src/data/index.js` — single source of truth for all static content: `SLIDES`, `CATS`, `PACKS`, `CONTACT_INFO`, `PHOTO_WALL`. Edit data here, never in components.
+- EmailJS contact form in `src/services/contactService.js`. Requires `.env` with `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, `VITE_EMAILJS_PUBLIC_KEY`. Template variables: `nombre`, `telefono`, `servicio`, `fecha`, `mensaje`.
+- `.gitignore` excludes `.env`, `raw/`, `dist/`, `.vite/`, `node_modules/`.
+- `DOCUMENTACION_AVANCE.md` at repo root contains detailed project documentation (tech decisions, branch strategy, commit history).
 
 ## Gotchas
 
-- `src/pages/Packs.jsx` is an empty stub; the real `Packs` component lives at `src/components/Packs.jsx`.
-- `README.md` mentions Supabase — this is stale, no supabase code exists in the project.
+- `src/App.jsx` has a dead import: `import Packs from './components/Packs'` — Packs is not referenced in its JSX. The real usage is from `src/pages/Home.jsx` which imports and uses `components/Packs`.
+- `src/components/Services.jsx` is orphaned (imported by no other module) **and broken** — it imports `SERVICES` from `../data` but `src/data/index.js` does not export `SERVICES`.
+- `README.md` mentions Supabase as backend — this is stale; no Supabase code exists in the project.
 - Both `package-lock.json` and `pnpm-lock.yaml` exist; `npm install` is the verified install command.

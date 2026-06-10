@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { CATS } from '../data'
 import styles from '../styles/Modal.module.css'
 import { enviarMensaje } from '../services/contactService'
@@ -30,6 +30,48 @@ export default function Modal({ isOpen, onClose, preselect }) {
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const modalRef = useRef(null)
+  const previousFocusRef = useRef(null)
+
+  const getFocusableElements = useCallback(() => {
+    if (!modalRef.current) return []
+    const selectors = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    return Array.from(modalRef.current.querySelectorAll(selectors))
+  }, [])
+
+  const trapFocus = useCallback((e) => {
+    if (e.key === 'Escape' && !submitting) {
+      onClose()
+      return
+    }
+    const focusable = getFocusableElements()
+    if (focusable.length === 0) return
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }, [getFocusableElements, onClose, submitting])
+
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement
+      const timer = setTimeout(() => {
+        const focusable = getFocusableElements()
+        if (focusable.length > 0) focusable[0].focus()
+      }, 100)
+      document.addEventListener('keydown', trapFocus)
+      return () => {
+        clearTimeout(timer)
+        document.removeEventListener('keydown', trapFocus)
+        previousFocusRef.current?.focus()
+      }
+    }
+  }, [isOpen, getFocusableElements, trapFocus])
 
   useEffect(() => {
     if (preselect) {
@@ -106,6 +148,7 @@ export default function Modal({ isOpen, onClose, preselect }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
+        ref={modalRef}
       >
         {/* Header */}
         <div className={styles.header}>

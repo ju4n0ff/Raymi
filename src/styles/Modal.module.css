@@ -202,7 +202,6 @@
   font-family: var(--font-body);
   font-size: .88rem;
   transition: border-color .3s, box-shadow .3s;
-  outline: none;
   resize: none;
   -webkit-appearance: none;
 }

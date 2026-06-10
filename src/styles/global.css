@@ -8,13 +8,137 @@
   --terra-lt: #d4956a;
   --brown:    #3d2b1f;
   --text:     #2c1f14;
-  --muted:    #8a7060;
+  --muted:    #735a48;
   --white:    #fdfaf5;
   --nav-h:    80px;
   --ease:     cubic-bezier(.25,.46,.45,.94);
   --font-body: 'Rajdhani', sans-serif;
   --font-display: 'Rajdhani', sans-serif;
   --font-rect: 'Rajdhani', sans-serif;
+}
+
+/* ── Accessibility overrides ────────────────── */
+/* Font sizes */
+html[data-font-size='large'] {
+  font-size: 20px;
+}
+
+html[data-font-size='xlarge'] {
+  font-size: 22px;
+}
+
+/* High contrast */
+html[data-contrast='high'] {
+  --cream:    #faf8f4;
+  --beige:    #d4c4a8;
+  --sand:     #b8a88c;
+  --terracota:#8a4f2f;
+  --terra-dk: #6b3a20;
+  --terra-lt: #c08050;
+  --brown:    #2c1f14;
+  --text:     #1a100a;
+  --muted:    #4a3a2a;
+  --white:    #ffffff;
+}
+
+html[data-contrast='high'] .section-tag {
+  color: var(--terra-dk);
+}
+
+html[data-contrast='high'] .section-desc {
+  color: var(--muted);
+}
+
+/* Underline links */
+html[data-underline='true'] a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+html[data-underline='true'] a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Grayscale */
+html[data-grayscale='true'] {
+  filter: grayscale(100%);
+}
+
+/* Dyslexia-friendly */
+html[data-dyslexia='true'] {
+  --font-body: 'Trebuchet MS', 'Charter', 'Georgia', serif;
+  --font-display: 'Trebuchet MS', 'Charter', 'Georgia', serif;
+  --font-rect: 'Trebuchet MS', 'Charter', 'Georgia', serif;
+  word-spacing: 0.16em;
+}
+
+html[data-dyslexia='true'] body {
+  letter-spacing: 0.035em;
+  font-weight: 400;
+}
+
+html[data-dyslexia='true'] p,
+html[data-dyslexia='true'] li,
+html[data-dyslexia='true'] .section-desc {
+  max-width: 70ch;
+}
+
+/* Line spacing */
+html[data-line-spacing='relaxed'] body {
+  line-height: 1.8;
+}
+
+html[data-line-spacing='loose'] body {
+  line-height: 2.2;
+}
+
+html[data-line-spacing='relaxed'] p,
+html[data-line-spacing='relaxed'] li,
+html[data-line-spacing='loose'] p,
+html[data-line-spacing='loose'] li {
+  margin-bottom: 0.5em;
+}
+
+/* Big cursor — hide default on interactive elements */
+html[data-big-cursor='true'] *,
+html[data-big-cursor='true'] *::before,
+html[data-big-cursor='true'] *::after {
+  cursor: none !important;
+}
+
+/* ── Skip link ──────────────────────────────── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  z-index: 9999;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background: var(--terracota);
+  color: var(--white);
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  transition: top .25s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ── :focus-visible global ──────────────────── */
+:focus-visible {
+  outline: 2px solid var(--terracota);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* ── Reset ──────────────────────────────────── */

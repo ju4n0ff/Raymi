@@ -67,8 +67,8 @@
   text-transform: uppercase;
   padding: 5px 14px;
   border-radius: 100px;
-  background: rgba(181, 113, 74, .2);
-  color: var(--terra-lt);
+  background: rgba(181, 113, 74, .35);
+  color: var(--cream);
 }
 
 .card.featured .badge {
@@ -86,7 +86,7 @@
 
 .price {
   font-size: .95rem;
-  color: rgba(245, 240, 232, .5);
+  color: rgba(245, 240, 232, .75);
   margin-bottom: 28px;
 }
 
@@ -102,7 +102,7 @@
 .desc {
   font-size: .95rem;
   line-height: 1.8;
-  color: rgba(245, 240, 232, .5);
+  color: rgba(245, 240, 232, .75);
   margin-bottom: 28px;
 }
 
@@ -110,7 +110,7 @@
 
 .item {
   font-size: .92rem;
-  color: rgba(245, 240, 232, .7);
+  color: rgba(245, 240, 232, .88);
   padding: 8px 0;
   display: flex;
   align-items: center;
@@ -162,13 +162,13 @@
   text-align: center;
   margin-top: 48px;
   font-size: .9rem;
-  color: rgba(245, 240, 232, .3);
+  color: rgba(245, 240, 232, .6);
   letter-spacing: .06em;
 }
 
 .note a {
-  color: var(--terra-lt);
-  border-bottom: 1px solid var(--terra-lt);
+  color: var(--cream);
+  border-bottom: 1px solid var(--cream);
 }
 
 @media (max-width: 900px) {
