@@ -47,20 +47,29 @@ function isIgnored(el) {
   return false
 }
 
+function hasDirectText(el) {
+  for (const node of el.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+      return true
+    }
+  }
+  return false
+}
+
 function extractText(el) {
   const tag = el.tagName
+  const aria = el.getAttribute('aria-label')
 
   if (tag === 'IMG') {
     const alt = el.getAttribute('alt')
-    if (alt) return `Imagen: ${alt}`
-    return null
+    const label = aria || alt
+    return label ? `Imagen: ${label}` : null
   }
 
   if (tag === 'A') {
     const text = el.textContent.trim()
-    const label = el.getAttribute('aria-label')
     const href = el.getAttribute('href') || ''
-    const display = label || text
+    const display = aria || text
     if (!display) return null
     if (/^https?:\/\//.test(href)) return `Enlace externo: ${display}`
     if (href.startsWith('#')) return `Enlace: ${display}`
@@ -69,16 +78,14 @@ function extractText(el) {
   }
 
   if (tag === 'BUTTON') {
-    const label = el.getAttribute('aria-label') || el.textContent.trim()
-    if (!label) return null
-    return `Botón: ${label}`
+    const label = aria || el.textContent.trim()
+    return label ? `Botón: ${label}` : null
   }
 
   if (/^H[1-6]$/.test(tag)) {
     const text = el.textContent.trim()
     if (!text) return null
-    const level = tag[1]
-    return level === '1' ? text : `Título: ${text}`
+    return tag === 'H1' ? text : `Título: ${text}`
   }
 
   if (['INPUT', 'SELECT', 'TEXTAREA'].includes(tag)) {
@@ -88,9 +95,21 @@ function extractText(el) {
       const labelEl = document.querySelector(`label[for="${id}"]`)
       if (labelEl) labelText = labelEl.textContent.trim()
     }
-    const display = el.getAttribute('aria-label') || labelText || el.getAttribute('placeholder') || 'Campo de formulario'
+    const display = aria || labelText || el.getAttribute('placeholder') || 'Campo de formulario'
     const value = el.value ? `: ${el.value}` : ''
     return `${display}${value}`
+  }
+
+  /* ── Text-bearing elements (p, li, span, figcaption, etc.) ── */
+  if (tag === 'P' || tag === 'LI' || tag === 'FIGCAPTION') {
+    const text = el.textContent.trim()
+    if (text && text.length > 2) return text
+  }
+
+  /* ── Direct text fallback for any element ── */
+  if (hasDirectText(el)) {
+    const text = el.textContent.trim()
+    if (text && text.length > 3 && text.length < 300) return text
   }
 
   return null
@@ -99,24 +118,37 @@ function extractText(el) {
 function findMeaningful(el) {
   let current = el
   let depth = 0
+  const seen = new Set()
   while (current && depth < 6) {
+    if (seen.has(current)) break
+    seen.add(current)
+
     if (!isIgnored(current)) {
-      const text = extractText(current)
-      if (text) return text
       if (current.hasAttribute('aria-label')) {
         return current.getAttribute('aria-label')
       }
+      const text = extractText(current)
+      if (text) return text
     }
+
     if (current.classList) {
-      if (current.classList.contains('section-tag') || current.classList.contains('section-title')) {
+      if (
+        current.classList.contains('section-tag') ||
+        current.classList.contains('section-title') ||
+        current.classList.contains('section-desc')
+      ) {
         return current.textContent.trim()
       }
-      const hasName = Array.from(current.classList).some((c) => c.includes('name') || c.includes('title') || c.includes('badge'))
+      const hasName = Array.from(current.classList).some(
+        (c) =>
+          c.includes('name') || c.includes('title') || c.includes('badge') || c.includes('desc')
+      )
       if (hasName) {
         const t = current.textContent.trim()
         if (t && t.length > 2) return t
       }
     }
+
     current = current.parentElement
     depth++
   }
@@ -208,15 +240,66 @@ export default function AccessibilityPanel() {
 
     let timer = null
     let currentEl = null
+    let cachedVoice = null
+
+    const loadVoices = () => { cachedVoice = null; logVoices() }
+    window.speechSynthesis.addEventListener('voiceschanged', loadVoices)
+
+    const logVoices = () => {
+      const v = window.speechSynthesis.getVoices()
+      if (v.length) console.table(v.map((v) => ({ name: v.name, lang: v.lang, local: v.localService })))
+    }
+    logVoices()
+
+    const pickVoice = () => {
+      if (cachedVoice) return cachedVoice
+      const voices = window.speechSynthesis.getVoices()
+
+      const femaleHints = ['sabina', 'helena', 'maria', 'laura', 'monica', 'zira', 'fem', 'female', 'mujer', 'rosa', 'elena', 'luna', 'voice 2', 'voice 3']
+      const maleHints = ['david', 'miguel', 'pablo', 'jorge', 'carlos', 'raul', 'mark', 'richard', 'male', 'hombre', 'voice 1']
+
+      const esTargets = ['es-MX', 'es-PE', 'es-ES', 'es-US', 'es-LA', 'es']
+
+      const isSpanish = (v) =>
+        esTargets.some(
+          (t) =>
+            v.lang.toLowerCase() === t.toLowerCase() ||
+            v.lang.toLowerCase().startsWith(t.toLowerCase() + '-')
+        )
+
+      const isFemale = (v) => femaleHints.some((n) => v.name.toLowerCase().includes(n))
+      const isMale = (v) => maleHints.some((n) => v.name.toLowerCase().includes(n))
+
+      const spanish = voices.filter(isSpanish)
+      const femaleSpanish = spanish.find(isFemale)
+      if (femaleSpanish) { cachedVoice = femaleSpanish; return femaleSpanish }
+
+      const anyFemale = voices.find((v) => isFemale(v) && !isMale(v))
+      if (anyFemale) { cachedVoice = anyFemale; return anyFemale }
+
+      const nonMaleSpanish = spanish.find((v) => !isMale(v))
+      if (nonMaleSpanish) { cachedVoice = nonMaleSpanish; return nonMaleSpanish }
+
+      if (spanish.length) { cachedVoice = spanish[0]; return spanish[0] }
+
+      const nonMaleAny = voices.find((v) => !isMale(v))
+      if (nonMaleAny) { cachedVoice = nonMaleAny; return nonMaleAny }
+
+      const fallback = voices[0]
+      if (fallback) cachedVoice = fallback
+      return fallback || null
+    }
 
     const speak = (text) => {
       if (!text) return
       window.speechSynthesis.cancel()
+      const voice = pickVoice()
       const u = new SpeechSynthesisUtterance(text)
       u.lang = 'es-PE'
-      u.rate = 0.92
-      u.pitch = 1
-      window.speechSynthesis.speak(u)
+      u.rate = 0.88
+      u.pitch = 1.2
+      if (voice) u.voice = voice
+      setTimeout(() => window.speechSynthesis.speak(u), 20)
     }
 
     const onOver = (e) => {
@@ -236,6 +319,7 @@ export default function AccessibilityPanel() {
     return () => {
       clearTimeout(timer)
       window.speechSynthesis.cancel()
+      window.speechSynthesis.removeEventListener('voiceschanged', loadVoices)
       document.removeEventListener('mouseover', onOver)
     }
   }, [settings.readAloud])
