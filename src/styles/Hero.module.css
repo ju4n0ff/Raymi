@@ -172,7 +172,8 @@
 @media (max-width: 900px) {
   .hero  { grid-template-columns: 1fr; height: auto; min-height: auto; }
   .right { display: block; height: 320px; order: -1; }
-  .right::after { background: linear-gradient(to bottom, var(--cream) 0%, transparent 40%); }
+  .right::after { background: linear-gradient(to bottom, var(--cream) 0%, transparent 20%); }
+  .right img { object-position: center 25%; }
   .left  { padding: 48px 24px 60px; }
   .tagline { display: none; }
 }

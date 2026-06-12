@@ -63,7 +63,7 @@ export default function Navbar({ onContact }) {
         <span />
       </button>
 
-      <ul className={`${styles.links}${menuOpen ? ` ${styles.linksOpen}` : ''}`}>
+      <ul className={styles.links}>
         {NAV_LINKS.map(({ href, label }) => (
           <li key={href}>
             <a href={href} onClick={handleNav(href)}>{label}</a>
