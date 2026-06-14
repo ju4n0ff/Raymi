@@ -5,7 +5,7 @@
 - Single-package React 18 + Vite 5 app (no TypeScript, no tests). Entrypoints: `src/main.jsx` → `src/App.jsx`.
 - `react-router-dom` v7 with `BrowserRouter`. `MainLayout` wraps the home route via `<Outlet>` and owns shared state (`Navbar`, `Footer`, `Modal`, `WhatsAppButton`). `<Cursor />` sits outside `<Routes>` in `App.jsx`.
 - `MainLayout` uses `useModal` from `src/hooks/useModal.js` and passes `{ open }` via `<Outlet context={{open}}/>`. `Home` retrieves it with `useOutletContext()` and forwards to `Packs`/`Contact`.
-- Fonts loaded from Google Fonts: Cormorant Garamond, Jost, Rajdhani (`index.html`).
+- Fonts loaded from Google Fonts: Cormorant Garamond, Jost, Rajdhani (`index.html`). Only `Rajdhani` is used in CSS; the other two are loaded but unused.
 
 ## Commands
 
@@ -16,6 +16,8 @@
 | `npm run preview` | Vite preview of built site |
 | `npm run lint` | ESLint on `src/`, **zero warnings** (`--max-warnings 0`) |
 | `npm run format` | Prettier writes in-place to `src/` |
+
+**Note**: `eslint` and `prettier` are NOT listed in `package.json` devDependencies. If these commands fail, install them manually (`npm i -D eslint prettier` + plugins).
 
 ## Code Conventions
 
@@ -38,3 +40,5 @@
 - `src/components/Services.jsx` is orphaned (imported by no other module) **and broken** — it imports `SERVICES` from `../data` but `src/data/index.js` does not export `SERVICES`.
 - `README.md` mentions Supabase as backend — this is stale; no Supabase code exists in the project.
 - Both `package-lock.json` and `pnpm-lock.yaml` exist; `npm install` is the verified install command.
+- `useScrollReveal` (`src/hooks/useScrollReveal.js`) uses a `MutationObserver` to observe new `.reveal` elements added to the DOM. It runs once on mount (`[]` deps) and auto-observes new elements. If a component re-renders and creates new `.reveal` children, they will be picked up automatically — do NOT remove the MutationObserver.
+- The mobile hamburger menu works by making the `<nav>` itself fullscreen (`height: 100vh; inset: 0`) when `menuOpen` is true. Do NOT use `position: fixed` on the `<ul>` child — that creates stacking context conflicts with the nav's `backdrop-filter`.
