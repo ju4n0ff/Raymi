@@ -51,7 +51,7 @@ export default function Hero({ onGallery, onPacks }) {
        <div className={styles.right}>
  
         <img
-          src="/images/hero.avif"
+          src="src/assets/images/hero.avif"
           alt="Fotografía de retrato"
         />
       </div>
