@@ -3,6 +3,12 @@ const slidesModules = import.meta.glob(
   { eager: true, query: '?url', import: 'default' },
 )
 
+const slideUrlByFilename = {}
+for (const [filePath, url] of Object.entries(slidesModules)) {
+  const filename = filePath.replace(/\\/g, '/').split('/').pop()
+  if (filename) slideUrlByFilename[filename] = url
+}
+
 const RAW_SLIDES = [
   { id: 'bautizo-01', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-01.avif', label: '', caption: 'Bautizo · Iglesia' },
   { id: 'bautizo-02', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-02.avif', label: '', caption: 'Bautizo · Familia' },
@@ -69,7 +75,7 @@ const RAW_SLIDES = [
 
 export const SLIDES = RAW_SLIDES.map((s) => ({
   ...s,
-  src: slidesModules[`../../${s.src}`] || s.src,
+  src: slideUrlByFilename[s.src.split('/').pop()] || s.src,
 }))
 
 export const CATS = [
