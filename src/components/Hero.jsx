@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import heroSrc from '../assets/images/hero.avif'
 import styles from '../styles/Hero.module.css'
 
 function useParallax() {
@@ -51,7 +52,7 @@ export default function Hero({ onGallery, onPacks }) {
        <div className={styles.right}>
  
         <img
-          src="src/assets/images/hero.avif"
+          src={heroSrc}
           alt="Fotografía de retrato"
         />
       </div>

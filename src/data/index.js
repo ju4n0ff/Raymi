@@ -1,4 +1,9 @@
-export const SLIDES = [
+const slidesModules = import.meta.glob(
+  '../../src/assets/images/{bautizo,paisajes,pedida-de-mano,urbanos,fotos-dentales,maternales,motos,cumpleaños}/*.avif',
+  { eager: true, query: '?url', import: 'default' },
+)
+
+const RAW_SLIDES = [
   { id: 'bautizo-01', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-01.avif', label: '', caption: 'Bautizo · Iglesia' },
   { id: 'bautizo-02', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-02.avif', label: '', caption: 'Bautizo · Familia' },
   { id: 'bautizo-03', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-03.avif', label: '', caption: 'Bautizo · Hermanos' },
@@ -61,6 +66,11 @@ export const SLIDES = [
   { id: 'cumpleaños-02', cat: 'cumpleaños', src: 'src/assets/images/cumpleaños/cumpleaños-02.avif', label: '', caption: 'Cumpleaños · Velas' },
   { id: 'cumpleaños-03', cat: 'cumpleaños', src: 'src/assets/images/cumpleaños/cumpleaños-03.avif', label: '', caption: 'Cumpleaños · Familia' },
 ]
+
+export const SLIDES = RAW_SLIDES.map((s) => ({
+  ...s,
+  src: slidesModules[`../../${s.src}`] || s.src,
+}))
 
 export const CATS = [
   { key: 'all',            label: 'Todos' },

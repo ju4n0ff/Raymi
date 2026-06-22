@@ -24,8 +24,9 @@
 - **Prettier** (`.prettierrc`): no semicolons, single quotes, trailing commas (`es5`), printWidth 100, tabWidth 2.
 - **ESLint** (`.eslintrc.json`): `react/prop-types` off, `no-unused-vars` as `warn` with `argsIgnorePattern: "^_"`.
 - **Styling**: CSS Modules in `src/styles/*.module.css` (flat, not co-located) + `src/styles/global.css`. Exception: `Error.css` is a plain CSS file (not a module). Shared helpers: `.section-tag`, `.section-title`, `.section-desc`, `.reveal` (scroll-triggered animation classes).
-- **Images**: All photos in AVIF format. Source originals go in `raw/<category>/`; run `node scripts/convertir.mjs` to convert + resize (max 1200 px, quality 80) into `public/images/<category>/`. Special files: `raw/hero.*` → `public/images/hero.avif` (1600px), `raw/about.*` → `public/images/about.avif` (800px), `raw/logo.*` → `public/images/logo.avif` (800px).
-- **Photo wall** (`PHOTO_WALL` in data): images from `public/images/mosaico/` loaded via Vite glob (`import.meta.glob`). File naming: `v<N>` = portrait, `h<N>` = landscape, `s<N>` = square.
+- **Images**: All photos in AVIF format. Source originals go in `raw/<category>/`; run `node scripts/convertir.mjs` to convert + resize (max 1200 px, quality 80) into `src/assets/images/<category>/`. Special files: `raw/hero.*` → `src/assets/images/hero.avif` (1600px), `raw/about.*` → `src/assets/images/about.avif` (800px), `raw/logo.*` → `src/assets/images/logo.avif` (800px).
+- **Photo wall** (`PHOTO_WALL` in data): images from `src/assets/images/mosaico/` loaded via Vite glob (`import.meta.glob`). File naming: `v<N>` = portrait, `h<N>` = landscape, `s<N>` = square.
+- **Image references in code**: Hero and logo use direct ES imports (`import heroSrc from '../assets/images/hero.avif'`). Gallery slides use `import.meta.glob` in `src/data/index.js` to resolve image paths at build time. Avoid hardcoded string paths to `src/assets/images/` — they work in dev but not in production builds.
 
 ## Data & Environment
 
