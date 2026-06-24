@@ -37,8 +37,10 @@
 
 ## Gotchas
 
-- `src/App.jsx` has a dead import: `import Packs from './components/Packs'` — Packs is not referenced in its JSX. The real usage is from `src/pages/Home.jsx` which imports and uses `components/Packs`.
-- `src/components/Services.jsx` is orphaned (imported by no other module) **and broken** — it imports `SERVICES` from `../data` but `src/data/index.js` does not export `SERVICES`.
+- `src/App.jsx` has a dead import: `import Packs from './components/Packs'` — not referenced in its JSX. Real usage is from `src/pages/Home.jsx`.
+- `src/components/Services.jsx` is orphaned (imported by no other module) **and broken** — imports `SERVICES` from `../data` but `src/data/index.js` does not export it.
+- `AccessibilityPanel` (535 lines) renders alongside `Cursor` outside `<Routes>`. Persists settings to `localStorage` under key `raymi-a11y`. Uses `data-*` attributes on `<html>` to toggle font-size, contrast, dyslexia mode, reading mask, big cursor, etc.
+- App.jsx imports `@vercel/analytics` and `@vercel/speed-insights` — they render inside `BrowserRouter` but outside `<Routes>`.
 - `README.md` mentions Supabase as backend — this is stale; no Supabase code exists in the project.
 - Both `package-lock.json` and `pnpm-lock.yaml` exist; `npm install` is the verified install command.
 - `useScrollReveal` (`src/hooks/useScrollReveal.js`) uses a `MutationObserver` to observe new `.reveal` elements added to the DOM. It runs once on mount (`[]` deps) and auto-observes new elements. If a component re-renders and creates new `.reveal` children, they will be picked up automatically — do NOT remove the MutationObserver.

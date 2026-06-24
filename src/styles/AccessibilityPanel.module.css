@@ -25,6 +25,7 @@
 .toggleOpen {
   background: var(--terra-dk);
   transform: rotate(45deg);
+  bottom: 12px;
 }
 
 .panel {
