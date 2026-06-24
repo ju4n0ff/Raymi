@@ -80,7 +80,17 @@ export default function Footer() {
       <div className={styles.bottom}>
         <div className={styles.legal}>
           <span>© {new Date().getFullYear()} Raymi Fotografía · Todos los derechos reservados</span>
-          <span>Hecho en Lima - Perú</span>
+          <span>
+            Hecho en Lima - Perú ·{' '}
+            <a
+              href="https://portfolio-jcvgdev.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.credit}
+            >
+              Desarrollado por Juan Carlos Vega
+            </a>
+          </span>
         </div>
       </div>
     </footer>
