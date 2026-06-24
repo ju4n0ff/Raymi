@@ -83,7 +83,7 @@ export default function Footer() {
           <span>
             Hecho en Lima - Perú ·{' '}
             <a
-              href="https://portfolio-jcvgdev.vercel.app/"
+              href="https://portfolio-gilt-five-56.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.credit}
