@@ -1,62 +1,82 @@
-export const SLIDES = [
-  { id: 'bautizo-01', cat: 'bautizo', src: '/images/bautizo/bautizo-01.avif', label: '', caption: 'Bautizo · Iglesia' },
-  { id: 'bautizo-02', cat: 'bautizo', src: '/images/bautizo/bautizo-02.avif', label: '', caption: 'Bautizo · Familia' },
-  { id: 'bautizo-03', cat: 'bautizo', src: '/images/bautizo/bautizo-03.avif', label: '', caption: 'Bautizo · Hermanos' },
-  { id: 'bautizo-04', cat: 'bautizo', src: '/images/bautizo/bautizo-04.avif', label: '', caption: 'Bautizo · Amigas' },
+const slidesModules = import.meta.glob(
+  '../../src/assets/images/{bautizo,paisajes,pedida-de-mano,urbanos,fotos-dentales,maternales,motos,cumpleaños}/*.avif',
+  { eager: true, query: '?url', import: 'default' },
+)
 
-  { id: 'paisajes-01', cat: 'paisajes', src: '/images/paisajes/paisajes-01.avif', label: '', caption: 'Paisaje · Pareja' },
-  { id: 'paisajes-02', cat: 'paisajes', src: '/images/paisajes/paisajes-02.avif', label: '', caption: 'Paisaje · Sendero' },
-  { id: 'paisajes-03', cat: 'paisajes', src: '/images/paisajes/paisajes-03.avif', label: '', caption: 'Paisaje · Euforia' },
-  { id: 'paisajes-04', cat: 'paisajes', src: '/images/paisajes/paisajes-04.avif', label: '', caption: 'Paisaje · Macchu Picchu' },
-  { id: 'paisajes-05', cat: 'paisajes', src: '/images/paisajes/paisajes-05.avif', label: '', caption: 'Paisaje · Teatro' },
-  { id: 'paisajes-06', cat: 'paisajes', src: '/images/paisajes/paisajes-06.avif', label: '', caption: 'Paisaje · Montaña 7 Colores' },
-  { id: 'paisajes-07', cat: 'paisajes', src: '/images/paisajes/paisajes-07.avif', label: '', caption: 'Paisaje · Caminante' },
-  { id: 'paisajes-08', cat: 'paisajes', src: '/images/paisajes/paisajes-08.avif', label: '', caption: 'Paisaje · Vista al panorama' },
+const slideUrlByFilename = {}
+for (const [filePath, url] of Object.entries(slidesModules)) {
+  const filename = filePath.replace(/\\/g, '/').split('/').pop()
+  if (filename) slideUrlByFilename[filename] = url
+}
 
-  { id: 'pedida-de-mano-01', cat: 'pedida-de-mano', src: '/images/pedida-de-mano/pedida-de-mano-01.avif', label: '', caption: 'Pedida de mano · Pareja Comprometida' },
-  { id: 'pedida-de-mano-02', cat: 'pedida-de-mano', src: '/images/pedida-de-mano/pedida-de-mano-02.avif', label: '', caption: 'Pedida de mano · Momento post a la pedida' },
-  { id: 'pedida-de-mano-03', cat: 'pedida-de-mano', src: '/images/pedida-de-mano/pedida-de-mano-03.avif', label: '', caption: 'Pedida de mano · Lugar de Evento' },
-  { id: 'pedida-de-mano-04', cat: 'pedida-de-mano', src: '/images/pedida-de-mano/pedida-de-mano-04.avif', label: '', caption: 'Pedida de mano · Romance' },
+const RAW_SLIDES = [
+  { id: 'bautizo-01', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-01.avif', label: '', caption: 'Bautizo · Iglesia' },
+  { id: 'bautizo-02', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-02.avif', label: '', caption: 'Bautizo · Familia' },
+  { id: 'bautizo-03', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-03.avif', label: '', caption: 'Bautizo · Hermanos' },
+  { id: 'bautizo-04', cat: 'bautizo', src: 'src/assets/images/bautizo/bautizo-04.avif', label: '', caption: 'Bautizo · Amigas' },
 
-  { id: 'urbanos-01', cat: 'urbanos', src: '/images/urbanos/urbanos-01.avif', label: '', caption: 'Urbano · Retrato Under' },
-  { id: 'urbanos-02', cat: 'urbanos', src: '/images/urbanos/urbanos-02.avif', label: '', caption: 'Urbano · Sendero' },
-  { id: 'urbanos-03', cat: 'urbanos', src: '/images/urbanos/urbanos-03.avif', label: '', caption: 'Urbano · Padre Hija' },
-  { id: 'urbanos-04', cat: 'urbanos', src: '/images/urbanos/urbanos-04.avif', label: '', caption: 'Urbano · Retrato' },
-  { id: 'urbanos-05', cat: 'urbanos', src: '/images/urbanos/urbanos-05.avif', label: '', caption: 'Urbano · Momento en Río' },
-  { id: 'urbanos-06', cat: 'urbanos', src: '/images/urbanos/urbanos-06.avif', label: '', caption: 'Urbano · Composición' },
-  { id: 'urbanos-07', cat: 'urbanos', src: '/images/urbanos/urbanos-07.avif', label: '', caption: 'Urbano · Modelo' },
-  { id: 'urbanos-08', cat: 'urbanos', src: '/images/urbanos/urbanos-08.avif', label: '', caption: 'Urbano · Vista a Calle' },
-  { id: 'urbanos-09', cat: 'urbanos', src: '/images/urbanos/urbanos-09.avif', label: '', caption: 'Urbano · Iluminación en Calle' },
-  { id: 'urbanos-10', cat: 'urbanos', src: '/images/urbanos/urbanos-10.avif', label: '', caption: 'Urbano · Amistad' },
-  { id: 'urbanos-11', cat: 'urbanos', src: '/images/urbanos/urbanos-11.avif', label: '', caption: 'Urbano · Infante' },
-  { id: 'urbanos-12', cat: 'urbanos', src: '/images/urbanos/urbanos-12.avif', label: '', caption: 'Urbano · Nostalgia' },
+  { id: 'paisajes-01', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-01.avif', label: '', caption: 'Paisaje · Pareja' },
+  { id: 'paisajes-02', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-02.avif', label: '', caption: 'Paisaje · Sendero' },
+  { id: 'paisajes-03', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-03.avif', label: '', caption: 'Paisaje · Euforia' },
+  { id: 'paisajes-04', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-04.avif', label: '', caption: 'Paisaje · Macchu Picchu' },
+  { id: 'paisajes-05', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-05.avif', label: '', caption: 'Paisaje · Teatro' },
+  { id: 'paisajes-06', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-06.avif', label: '', caption: 'Paisaje · Montaña 7 Colores' },
+  { id: 'paisajes-07', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-07.avif', label: '', caption: 'Paisaje · Caminante' },
+  { id: 'paisajes-08', cat: 'paisajes', src: 'src/assets/images/paisajes/paisajes-08.avif', label: '', caption: 'Paisaje · Vista al panorama' },
 
-  { id: 'fotos-dentales-01', cat: 'fotos-dentales', src: '/images/fotos-dentales/fotos-dentales-01.avif', label: '', caption: 'Dental · Doctora' },
-  { id: 'fotos-dentales-02', cat: 'fotos-dentales', src: '/images/fotos-dentales/fotos-dentales-02.avif', label: '', caption: 'Dental · Pre-consulta' },
-  { id: 'fotos-dentales-03', cat: 'fotos-dentales', src: '/images/fotos-dentales/fotos-dentales-03.avif', label: '', caption: 'Dental · Preparación' },
-  { id: 'fotos-dentales-04', cat: 'fotos-dentales', src: '/images/fotos-dentales/fotos-dentales-04.avif', label: '', caption: 'Dental · Tratamiento' },
+  { id: 'pedida-de-mano-01', cat: 'pedida-de-mano', src: 'src/assets/images/pedida-de-mano/pedida-de-mano-01.avif', label: '', caption: 'Pedida de mano · Pareja Comprometida' },
+  { id: 'pedida-de-mano-02', cat: 'pedida-de-mano', src: 'src/assets/images/pedida-de-mano/pedida-de-mano-02.avif', label: '', caption: 'Pedida de mano · Momento post a la pedida' },
+  { id: 'pedida-de-mano-03', cat: 'pedida-de-mano', src: 'src/assets/images/pedida-de-mano/pedida-de-mano-03.avif', label: '', caption: 'Pedida de mano · Lugar de Evento' },
+  { id: 'pedida-de-mano-04', cat: 'pedida-de-mano', src: 'src/assets/images/pedida-de-mano/pedida-de-mano-04.avif', label: '', caption: 'Pedida de mano · Romance' },
 
-  { id: 'maternales-01', cat: 'maternales', src: '/images/maternales/maternales-01.avif', label: '', caption: 'Maternal · Iluminación' },
-  { id: 'maternales-02', cat: 'maternales', src: '/images/maternales/maternales-02.avif', label: '', caption: 'Maternal ' },
-  { id: 'maternales-03', cat: 'maternales', src: '/images/maternales/maternales-03.avif', label: '', caption: 'Maternal ' },
-  { id: 'maternales-04', cat: 'maternales', src: '/images/maternales/maternales-04.avif', label: '', caption: 'Maternal ' },
-  { id: 'maternales-05', cat: 'maternales', src: '/images/maternales/maternales-05.avif', label: '', caption: 'Maternal ' },
-  { id: 'maternales-06', cat: 'maternales', src: '/images/maternales/maternales-06.avif', label: '', caption: 'Maternal ' },
-  { id: 'maternales-07', cat: 'maternales', src: '/images/maternales/maternales-07.avif', label: '', caption: 'Maternal ' },
-  { id: 'maternales-08', cat: 'maternales', src: '/images/maternales/maternales-08.avif', label: '', caption: 'Maternal ' },
-  { id: 'maternales-09', cat: 'maternales', src: '/images/maternales/maternales-09.avif', label: '', caption: 'Maternal · contraluz' },
+  { id: 'urbanos-01', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-01.avif', label: '', caption: 'Urbano · Retrato Under' },
+  { id: 'urbanos-02', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-02.avif', label: '', caption: 'Urbano · Sendero' },
+  { id: 'urbanos-03', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-03.avif', label: '', caption: 'Urbano · Padre Hija' },
+  { id: 'urbanos-04', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-04.avif', label: '', caption: 'Urbano · Retrato' },
+  { id: 'urbanos-05', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-05.avif', label: '', caption: 'Urbano · Momento en Río' },
+  { id: 'urbanos-06', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-06.avif', label: '', caption: 'Urbano · Composición' },
+  { id: 'urbanos-07', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-07.avif', label: '', caption: 'Urbano · Modelo' },
+  { id: 'urbanos-08', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-08.avif', label: '', caption: 'Urbano · Vista a Calle' },
+  { id: 'urbanos-09', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-09.avif', label: '', caption: 'Urbano · Iluminación en Calle' },
+  { id: 'urbanos-10', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-10.avif', label: '', caption: 'Urbano · Amistad' },
+  { id: 'urbanos-11', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-11.avif', label: '', caption: 'Urbano · Infante' },
+  { id: 'urbanos-12', cat: 'urbanos', src: 'src/assets/images/urbanos/urbanos-12.avif', label: '', caption: 'Urbano · Nostalgia' },
 
-  { id: 'motos-01', cat: 'motos', src: '/images/motos/motos-01.avif', label: '', caption: 'Motos · Ruta' },
-  { id: 'motos-02', cat: 'motos', src: '/images/motos/motos-02.avif', label: '', caption: 'Motos · Frente' },
-  { id: 'motos-03', cat: 'motos', src: '/images/motos/motos-03.avif', label: '', caption: 'Motos · Estacionado' },
-  { id: 'motos-04', cat: 'motos', src: '/images/motos/motos-04.avif', label: '', caption: 'Motos · Lateral' },
-  { id: 'motos-05', cat: 'motos', src: '/images/motos/motos-05.avif', label: '', caption: 'Motos · Curva' },
-  { id: 'motos-06', cat: 'motos', src: '/images/motos/motos-06.avif', label: '', caption: 'Motos · Rodada' },
-  { id: 'motos-07', cat: 'motos', src: '/images/motos/motos-07.avif', label: '', caption: 'Motos · Wheelie' },
-  { id: 'motos-08', cat: 'motos', src: '/images/motos/motos-08.avif', label: '', caption: 'Motos · Acción' },
-  { id: 'motos-09', cat: 'motos', src: '/images/motos/motos-09.avif', label: '', caption: 'Motos · Frontwheel' },
-  { id: 'motos-10', cat: 'motos', src: '/images/motos/motos-10.avif', label: '', caption: 'Motos · Movimiento' },
+  { id: 'fotos-dentales-01', cat: 'fotos-dentales', src: 'src/assets/images/fotos-dentales/fotos-dentales-01.avif', label: '', caption: 'Dental · Doctora' },
+  { id: 'fotos-dentales-02', cat: 'fotos-dentales', src: 'src/assets/images/fotos-dentales/fotos-dentales-02.avif', label: '', caption: 'Dental · Pre-consulta' },
+  { id: 'fotos-dentales-03', cat: 'fotos-dentales', src: 'src/assets/images/fotos-dentales/fotos-dentales-03.avif', label: '', caption: 'Dental · Preparación' },
+  { id: 'fotos-dentales-04', cat: 'fotos-dentales', src: 'src/assets/images/fotos-dentales/fotos-dentales-04.avif', label: '', caption: 'Dental · Tratamiento' },
+
+  { id: 'maternales-01', cat: 'maternales', src: 'src/assets/images/maternales/maternales-01.avif', label: '', caption: 'Maternal · Iluminación' },
+  { id: 'maternales-02', cat: 'maternales', src: 'src/assets/images/maternales/maternales-02.avif', label: '', caption: 'Maternal ' },
+  { id: 'maternales-03', cat: 'maternales', src: 'src/assets/images/maternales/maternales-03.avif', label: '', caption: 'Maternal ' },
+  { id: 'maternales-04', cat: 'maternales', src: 'src/assets/images/maternales/maternales-04.avif', label: '', caption: 'Maternal ' },
+  { id: 'maternales-05', cat: 'maternales', src: 'src/assets/images/maternales/maternales-05.avif', label: '', caption: 'Maternal ' },
+  { id: 'maternales-06', cat: 'maternales', src: 'src/assets/images/maternales/maternales-06.avif', label: '', caption: 'Maternal ' },
+  { id: 'maternales-07', cat: 'maternales', src: 'src/assets/images/maternales/maternales-07.avif', label: '', caption: 'Maternal ' },
+  { id: 'maternales-08', cat: 'maternales', src: 'src/assets/images/maternales/maternales-08.avif', label: '', caption: 'Maternal ' },
+  { id: 'maternales-09', cat: 'maternales', src: 'src/assets/images/maternales/maternales-09.avif', label: '', caption: 'Maternal · contraluz' },
+
+  { id: 'motos-01', cat: 'motos', src: 'src/assets/images/motos/motos-01.avif', label: '', caption: 'Motos · Ruta' },
+  { id: 'motos-02', cat: 'motos', src: 'src/assets/images/motos/motos-02.avif', label: '', caption: 'Motos · Frente' },
+  { id: 'motos-03', cat: 'motos', src: 'src/assets/images/motos/motos-03.avif', label: '', caption: 'Motos · Estacionado' },
+  { id: 'motos-04', cat: 'motos', src: 'src/assets/images/motos/motos-04.avif', label: '', caption: 'Motos · Lateral' },
+  { id: 'motos-05', cat: 'motos', src: 'src/assets/images/motos/motos-05.avif', label: '', caption: 'Motos · Curva' },
+  { id: 'motos-06', cat: 'motos', src: 'src/assets/images/motos/motos-06.avif', label: '', caption: 'Motos · Rodada' },
+  { id: 'motos-07', cat: 'motos', src: 'src/assets/images/motos/motos-07.avif', label: '', caption: 'Motos · Wheelie' },
+  { id: 'motos-08', cat: 'motos', src: 'src/assets/images/motos/motos-08.avif', label: '', caption: 'Motos · Acción' },
+  { id: 'motos-09', cat: 'motos', src: 'src/assets/images/motos/motos-09.avif', label: '', caption: 'Motos · Frontwheel' },
+  { id: 'motos-10', cat: 'motos', src: 'src/assets/images/motos/motos-10.avif', label: '', caption: 'Motos · Movimiento' },
+
+  { id: 'cumpleaños-01', cat: 'cumpleaños', src: 'src/assets/images/cumpleaños/cumpleaños-01.avif', label: '', caption: 'Cumpleaños · Sorpresa' },
+  { id: 'cumpleaños-02', cat: 'cumpleaños', src: 'src/assets/images/cumpleaños/cumpleaños-02.avif', label: '', caption: 'Cumpleaños · Velas' },
+  { id: 'cumpleaños-03', cat: 'cumpleaños', src: 'src/assets/images/cumpleaños/cumpleaños-03.avif', label: '', caption: 'Cumpleaños · Familia' },
 ]
+
+export const SLIDES = RAW_SLIDES.map((s) => ({
+  ...s,
+  src: slideUrlByFilename[s.src.split('/').pop()] || s.src,
+}))
 
 export const CATS = [
   { key: 'all',            label: 'Todos' },
@@ -67,6 +87,7 @@ export const CATS = [
   { key: 'fotos-dentales', label: 'Dentales' },
   { key: 'maternales',     label: 'Maternales' },
   { key: 'motos',          label: 'Motos' },
+    { key: 'cumpleaños',     label: 'Cumpleaños' },
 ]
 
 
@@ -138,7 +159,7 @@ export const CONTACT_INFO = [
   { icon: '📱', label: 'WhatsApp',   value: '952 365 703' },
 ]
 
-const photoWallModules = import.meta.glob('../../public/images/mosaico/*.{avif,webp,jpg,jpeg,png}', {
+const photoWallModules = import.meta.glob('../../src/assets/images/mosaico/*.{avif,webp,jpg,jpeg,png}', {
   eager: true,
   query: '?url',
   import: 'default',

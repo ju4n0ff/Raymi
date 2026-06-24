@@ -4,7 +4,7 @@ import path from 'path'
 import sharp from 'sharp'
 
 const RAW_DIR = path.resolve('raw')
-const OUT_DIR = path.resolve('public/images')
+const OUT_DIR = path.resolve('src/assets/images')
 const EXTENSIONS = new Set(['.jpg', '.jpeg', '.png'])
 
 const CATEGORIES = [
@@ -16,6 +16,7 @@ const CATEGORIES = [
   'fotos-dentales',
   'maternales',
   'motos',
+  'cumpleaños'
 ]
 
 const SPECIAL = [
@@ -104,7 +105,7 @@ async function main() {
     const avifs = readdirSync(outDir).filter(f => f.endsWith('.avif')).sort()
     for (const f of avifs) {
       const id = `${cat}-${f.replace('.avif','').split('-').pop()}`
-      console.log(`    { id: '${id}', cat: '${cat}', src: '/images/${cat}/${f}', label: '${cat}', caption: '' },`)
+      console.log(`    { id: '${id}', cat: '${cat}', src: 'src/assets/images/${cat}/${f}', label: '${cat}', caption: '' },`)
     }
   }
   console.log('  ]')
